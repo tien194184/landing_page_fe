@@ -1,0 +1,142 @@
+@import 'normalize.css';
+@import url('https://use.typekit.net/waz4tsx.css');
+
+:root {
+    --primary: #fe2c55;
+    --black: #000;
+    --white: #fff;
+    --text-color: #333;
+    --default-layout-header-height: 60px;
+    --default-layout-width: 1400px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    line-height: 1.3;
+    text-rendering: optimizeSpeed;
+    overflow-y: overlay;
+}
+
+// Scrollbar CSS
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+button,
+[tabindex] {
+    outline: none;
+    border: none;
+}
+a {
+    color: var(--text-color);
+    text-decoration: none;
+}
+//custom tippy
+body {
+    .tippy-box {
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 1.6rem;
+        line-height: 2.2rem;
+        background-color: rgba(84, 84, 84, 0.92);
+    }
+    .tippy-content {
+        padding: 8px 9px;
+    }
+    .tippy-arrow {
+        color: rgba(84, 84, 84, 0.92);
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+.gird {
+    display: grid;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.row > * {
+    padding: 0;
+}
+
+.m-auto {
+    margin: auto;
+}
+
+.line {
+    height: 1px;
+    background-color: black;
+}
+
+.rounded {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-radius: 52px;
+    border-color: rgba(22, 24, 35, 0.12);
+
+    &:hover {
+        border-color: rgba(22, 24, 35, 0.2);
+        background-color: rgba(255, 255, 255, 1);
+    }
+}
+
+.primary {
+    color: var(--white);
+    background-color: var(--primary);
+    border-color: var(--primary);
+
+    &:hover {
+        border-color: var(--primary);
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.06)), #fe2c55;
+    }
+}
+
+.outline {
+    color: var(--primary);
+    border-color: currentColor;
+
+    &:hover {
+        border-color: currentColor;
+        background: rgba(254, 44, 85, 0.06);
+    }
+}
+
+.text {
+    &:hover {
+        text-decoration: underline;
+    }
+}
+.small {
+    // min-width: 80px;
+    padding: 4px 10px;
+}
+
+.large {
+    // min-width: 100px;
+    padding: 9px 16px;
+}
+p{
+    margin: 0;
+    padding: 0;
+}

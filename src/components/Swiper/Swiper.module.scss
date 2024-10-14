@@ -1,0 +1,26 @@
+.swiper-pagination {
+    text-align: right !important;
+}
+.swiper:nth-child(3) {
+    background-color: rgb(153 246 228);
+}
+.slide{
+    margin: 0 !important;
+}
+.swiper-container {
+    .swiper-pagination-fraction {
+        position: absolute;
+        right: 10px; /* Move pagination to the right */
+        bottom: 10px; /* Adjust bottom position */
+        background-color: rgba(0, 0, 0, 0.5); /* Add background color with some transparency */
+        color: #fff; /* Set text color to white */
+        padding: 5px 10px; /* Add padding for better look */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .swiper-pagination-current,
+    .swiper-pagination-total {
+        color: #fff; /* Ensure the numbers are white */
+    }
+}

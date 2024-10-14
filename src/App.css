@@ -1,5 +1,8 @@
 .App {
-  text-align: center;
+}
+.swiper-pagination {
+  text-align: right !important;
+  margin-left: 5px;
 }
 
 .App-logo {
@@ -26,6 +29,12 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.swiper-pagination-fraction, .swiper-pagination {
+  /* font-weight: bold;  */
+  
+  color: #d92c2c !important;        
 }
 
 @keyframes App-logo-spin {

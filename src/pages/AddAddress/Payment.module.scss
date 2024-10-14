@@ -1,0 +1,19 @@
+.nav-payment {
+    align-items: center;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 53px;
+    // min-height: 70px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%);
+}
+.title-page {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
