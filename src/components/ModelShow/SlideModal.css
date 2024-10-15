@@ -1,0 +1,28 @@
+/* Slide modal content */
+.slide-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: white;
+    transform: translateX(100%); /* Initially hidden */
+    transition: transform 0.3s ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+    transform: translateX(0); /* Slide in */
+}
+
+.ReactModal__Content--before-close {
+    transform: translateX(100%); /* Slide out */
+}
+
+.slide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
+}

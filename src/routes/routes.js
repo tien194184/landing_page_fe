@@ -4,7 +4,6 @@ import Register from '../pages/Register';
 import CreateProduct from '../pages/CreateProduct';
 import Product from '../pages/Product';
 import Payment from '../pages/Payment';
-import AddAddress from '../pages/AddAddress';
 
 const publicRoutes = [
     { path: config.routes.login, component: Login },
@@ -17,7 +16,6 @@ const privateRoutesUser = [
     { path: config.routes.createProduct, component: CreateProduct },
     { path: config.routes.product, component: Product },
     { path: config.routes.payment, component: Payment },
-    { path: config.routes.addAddress, component: AddAddress },
     // { path: config.routes.editProduct, component: EditProduct },
     
 

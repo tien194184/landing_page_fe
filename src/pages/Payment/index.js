@@ -1,5 +1,5 @@
 // GetProduct.jsx
-import React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-scroll';
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
@@ -15,6 +15,7 @@ import { FaStar } from 'react-icons/fa6';
 import { HiOutlinePlusSm } from 'react-icons/hi';
 import { FaCamera } from 'react-icons/fa';
 import Image from '../../components/Image';
+import SlideModal from '../../components/ModelShow';
 import { LuStore } from 'react-icons/lu';
 import { TbMessageCircle } from 'react-icons/tb';
 import { IoShieldCheckmarkSharp } from 'react-icons/io5';
@@ -25,6 +26,16 @@ import { IoTicket } from 'react-icons/io5';
 const cx = classNames.bind(styles);
 
 function Payment() {
+    // State to manage modal visibility
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+    // Function to toggle modal visibility
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
     return (
         <>
             <header className={cx('nav-payment', 'flex')}>
@@ -51,12 +62,13 @@ function Payment() {
                 </div>
             </header>
 
-            <div className={cx('container-address')} style={{ margin: '27px 18px' }}>
+            <div className={cx('container-address')} style={{ margin: '27px 18px' }} onClick={openModal}>
                 <span className={cx('icon-plus')}>
                     <HiOutlinePlusSm />
                 </span>
                 <span>Thêm địa chỉ giao hàng</span>
             </div>
+            {isModalOpen && <SlideModal isOpen={isModalOpen} onClose={closeModal} />}
 
             <div className={cx('line')}></div>
 
