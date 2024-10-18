@@ -64,7 +64,7 @@ function CreateProduct() {
     const [comment6, setComment6] = useState();
 
     const handleProductNameChange = (event) => {
-        setProductName(event.target.value.trim());
+        setProductName(event.target.value);
     };
     const handlePriceChange = (event) => {
         setPrice(event.target.value.trim());
@@ -103,40 +103,40 @@ function CreateProduct() {
         setThreeStarCount(event.target.value.trim());
     };
     const handleProductTypeChange1 = (event) => {
-        setProductType1(event.target.value.trim());
+        setProductType1(event.target.value);
     };
     const handleCommentChange1 = (event) => {
-        setComment1(event.target.value.trim());
+        setComment1(event.target.value);
     };
     const handleProductTypeChange2 = (event) => {
-        setProductType2(event.target.value.trim());
+        setProductType2(event.target.value);
     };
     const handleCommentChange2 = (event) => {
-        setComment2(event.target.value.trim());
+        setComment2(event.target.value);
     };
     const handleProductTypeChange3 = (event) => {
-        setProductType3(event.target.value.trim());
+        setProductType3(event.target.value);
     };
     const handleCommentChange3 = (event) => {
-        setComment3(event.target.value.trim());
+        setComment3(event.target.value);
     };
     const handleProductTypeChange4 = (event) => {
-        setProductType4(event.target.value.trim());
+        setProductType4(event.target.value);
     };
     const handleCommentChange4 = (event) => {
-        setComment4(event.target.value.trim());
+        setComment4(event.target.value);
     };
     const handleProductTypeChange5 = (event) => {
-        setProductType5(event.target.value.trim());
+        setProductType5(event.target.value);
     };
     const handleCommentChange5 = (event) => {
-        setComment5(event.target.value.trim());
+        setComment5(event.target.value);
     };
     const handleProductTypeChange6 = (event) => {
-        setProductType6(event.target.value.trim());
+        setProductType6(event.target.value);
     };
     const handleCommentChange6 = (event) => {
-        setComment6(event.target.value.trim());
+        setComment6(event.target.value);
     };
 
     const [imageProducts, setImageProducts] = useState([]);

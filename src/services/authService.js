@@ -1,7 +1,7 @@
 import * as httpRequest from '../utils/httpRequest';
 export const post = async (data) => {
     try {
-        const res = await httpRequest.post(`/user/product/670e454d24d1cb40f5c45d57`, data);
+        const res = await httpRequest.post(`/user/product`, data);
         console.log(res);
         return res;
     } catch (error) {
