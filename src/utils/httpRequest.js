@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const httpRequest = axios.create({
-    baseURL: "https://landing-page-be-nqks.onrender.com",
+    baseURL: "https://landing-page-be-gsuf.onrender.com/"
 });
 
 export const get = async (
