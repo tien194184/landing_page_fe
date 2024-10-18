@@ -1,7 +1,7 @@
 import * as httpRequest from '../utils/httpRequest';
 export const post = async (data) => {
     try {
-        const res = await httpRequest.post(`/dang-ky`, data);
+        const res = await httpRequest.post(`/user/product/670e454d24d1cb40f5c45d57`, data);
         console.log(res);
         return res;
     } catch (error) {
@@ -35,18 +35,10 @@ export const postLogin = async (data) => {
     }
 };
 
-export const getLogout = async () => {
+export const getProduct = async (slug) => {
     try {
-        const res = await httpRequest.get(`/dang-xuat`);
-        console.log(res);
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('authenticated');
-        localStorage.removeItem('authorities');
-        localStorage.removeItem('credentials');
-        localStorage.removeItem('details');
-        localStorage.removeItem('name');
-        localStorage.removeItem('principal');
-        return true;
+        const res = await httpRequest.get(`/product/${slug}`);
+        return res;
     } catch (error) {
         console.log(error);
     }

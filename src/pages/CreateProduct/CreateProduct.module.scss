@@ -1,35 +1,73 @@
-.wrapper {
-    margin-top: 70px !important;
-    box-shadow: 10px 10px 5px 5px #ccc;
-}
-.banner {
-    height: 100%;
+.nav-payment {
+    align-items: center;
+    // position: -webkit-sticky;
+    // position: sticky;
+    // top: 0;
+    z-index: 100;
+    height: 53px;
+    // min-height: 70px;
     width: 100%;
+    // background-color: #f5f5f5;
 }
-.padding-login {
-    padding: 70px 100px;
+.flex {
+    display: flex;
 }
-.login {
-    border: 1px solid #ccc;
-    h2 {
-        text-align: center;
-        font-size: 35px;
+.title-page {
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+.container {
+    background-color: #f5f5f5;
+    margin: 0 7px;
+    .info {
+        color: rgb(98, 98, 98);
+        margin: 15px 0 8px 15px;
     }
-    p {
-        text-align: center;
+    input {
+        width: 100%;
+        z-index: 50;
+        font-size: 15px;
+        border: none;
+        border-radius: 2px;
+        padding: 14px 15px;
+    }
+    input:focus-visible {
+        outline: none;
+    }
+    .div-phone {
+        background-color: #ffffff;
+        align-items: center;
+        p {
+            white-space: nowrap;
+        }
+    }
+    .setting {
+        background-color: #ffffff;
+        padding: 5px 15px;
     }
 }
-.div-input {
-    margin: 20px 0;
+.line {
+    height: 1px;
+    width: 100%;
+    background-color: #ccc;
 }
-.input {
-    padding: 7px 12px;
-    margin: 5px 0;
-    border: 1px solid black;
+.footer {
+    margin: 15px 15px;
+}
+.btn-save-address {
+    width: 100%;
+    font-size: 15px;
+    font-weight: 600;
+    background-color: #fc2b54;
+    color: white;
     border-radius: 5px;
-}
-.register {
-    margin-top: 20px;
+    flex-grow: 1;
+    text-align: center;
+    padding: 10px 0;
+    margin: 10px 0;
 }
 
 .error {
@@ -40,4 +78,91 @@
     padding: 7px 12px;
     border: 1px solid red;
     border-radius: 5px;
+}
+.step-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.step {
+}
+.step-counter {
+    background-color: #f03;
+    color: #fff;
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    // background: #878787;
+    // color: #333;
+    // font-family: YouTube Sans;
+
+    font-weight: 800;
+}
+.disable-step {
+    background: #878787 !important;
+    color: #333 !important;
+}
+.step-4 {
+    background: linear-gradient(-90deg, #878787, #878787 50%, #f03 0) !important;
+}
+.line-step {
+    position: absolute;
+    top: 82px;
+    width: 100%;
+    height: 1px;
+    background-color: #555;
+}
+.scrollable-div {
+    height: 70vh; /* Giới hạn chiều cao */
+    overflow-y: auto; /* Cho phép cuộn theo trục dọc */
+}
+.comment-item {
+    margin: 19px 0;
+}
+.account-item {
+    .item-info {
+        font-size: 12px;
+        margin-left: 8px;
+        font-weight: 600;
+    }
+}
+
+.account-item {
+    .avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+}
+.account-item {
+    .time {
+        font-size: 13px;
+    }
+}
+.star {
+    font-size: 11px;
+    color: #ffdb3d;
+}
+.comment-images {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 4 images per row
+    gap: 10px; // Space between images
+    margin-top: 5px;
+}
+
+.comment-image {
+    width: 100%; // Take full width of grid item
+    height: auto; // Maintain aspect ratio
+    object-fit: cover;
+    border-radius: 5px; // Rounded corners
+    border-radius: 0 !important;
+    aspect-ratio: 1 / 1;
 }

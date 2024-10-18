@@ -1,5 +1,5 @@
 // GetProduct.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-scroll';
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
@@ -22,12 +22,36 @@ import { IoShieldCheckmarkSharp } from 'react-icons/io5';
 import { LuPlus } from 'react-icons/lu';
 import { RiSubtractFill } from 'react-icons/ri';
 import { IoTicket } from 'react-icons/io5';
+import { useNavigate, useParams } from 'react-router-dom';
+import * as authService from '../../services/authService';
 
 const cx = classNames.bind(styles);
 
 function Payment() {
+    const navigate = useNavigate();
+    const { slug } = useParams();
     // State to manage modal visibility
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                // Make the API call to fetch the product
+                const response = await authService.getProduct(slug);
+
+                // Update the product state
+                setProduct(response.data.product);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+        fetchProduct();
+    }, [slug]);
 
     const openModal = () => {
         setIsModalOpen(true);
@@ -42,7 +66,8 @@ function Payment() {
                 <div
                     xs={1}
                     className={cx('icon-header')}
-                    style={{ left: '11px', fontSize: '26px', position: 'absolute' }}
+                    style={{ left: '11px', fontSize: '26px', position: 'absolute', zIndex: '11' }}
+                    onClick={() => navigate(-1)}
                 >
                     <span>
                         <IoChevronBackSharp />
@@ -77,7 +102,7 @@ function Payment() {
                     <div className={cx('flex')}>
                         <Image
                             className={cx('avatar-shop')}
-                            src="https://res.cloudinary.com/dlkm9tiem/image/upload/v1715619497/yj5ya4u0yeh92a3gnzen.png"
+                            src="https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:quality(100)/2023_12_11_638378641466845781_avatar-anime.jpg"
                             alt=""
                         />
                         <div style={{ marginLeft: '8px' }} className={cx('items-center', 'flex')}>
@@ -89,13 +114,13 @@ function Payment() {
                     <div>
                         <Image
                             className={cx('image-product')}
-                            src="https://res.cloudinary.com/dlkm9tiem/image/upload/v1715619497/yj5ya4u0yeh92a3gnzen.png"
+                            src={product?.image1}
                             alt=""
                         />
                     </div>
                     <div style={{ marginLeft: '15px', width: '100%' }}>
-                        <p className={cx('name-product')}>Bộ quần áo bóng đá, đồ đá banh</p>
-                        <p className={cx('type-product')}>Đen</p>
+                        <p className={cx('name-product')}>{product?.productName}</p>
+                        <p className={cx('type-product')}>{product?.productType}</p>
                         <div className={cx('flex')}>
                             <div className={cx('div-icon-check')}>
                                 <span className={cx('icon-check')}>
@@ -113,10 +138,10 @@ function Payment() {
                         <div className={cx('flex')} style={{ justifyContent: 'space-between' }}>
                             <div>
                                 <p className={cx('price')}>
-                                    125.000<u style={{ fontSize: '18px' }}>đ</u>
+                                    {product?.price}<u style={{ fontSize: '18px' }}>đ</u>
                                 </p>
                                 <p className={cx('price-old')}>
-                                    169.000
+                                    {product?.oldPrice}
                                     <u style={{ fontSize: '13px', textDecorationColor: 'rgba(0, 0, 0, 0.5)' }}>đ</u>
                                 </p>
                             </div>

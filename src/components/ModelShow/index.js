@@ -18,7 +18,7 @@ function SlideModal({ isOpen, onClose }) {
                     <div
                         xs={1}
                         className={cx('icon-header')}
-                        style={{ left: '11px', fontSize: '26px', position: 'absolute' }}
+                        style={{ left: '11px', fontSize: '26px', position: 'absolute', zIndex: '50' }}
                         onClick={onClose}
                     >
                         <span>

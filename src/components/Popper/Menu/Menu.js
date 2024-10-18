@@ -22,7 +22,7 @@ function Menu({ children, items = [], hideOnClick = false, onChange = defaultFn 
 
     const handleFormSubmitLogout = async (event) => {
         try {
-            await authService.getLogout();
+            // await authService.getLogout();
             navigate('/');
             window.location.reload();
         } catch (error) {

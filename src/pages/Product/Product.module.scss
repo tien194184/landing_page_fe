@@ -3,8 +3,7 @@
     // box-shadow: 10px 10px 5px 5px #ccc;
 }
 .banner {
-    height: 100%;
-    width: 100%;
+
 }
 .padding-login {
     padding: 70px 100px;
@@ -68,8 +67,7 @@ section {
     position: sticky;
     top: 0;
     z-index: 2;
-    height: 70px;
-    min-height: 70px;
+    height: 83px;
     width: 100%;
     background-color: #fff;
     box-shadow: 0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%);
@@ -85,6 +83,8 @@ section {
 }
 
 .nav__container__actions {
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .active {
@@ -110,23 +110,25 @@ section {
 .banner {
     justify-content: space-between;
     background: linear-gradient(to right, #fb5c22, #ff7b33);
-    padding: 8px 30px;
+    padding: 6px 25px;
     .icon-sale {
-        font-size: 25px;
+        font-size: 23px;
         // margin-top: 3px;
         // margin-right: 5px;
     }
     .text {
         display: flex;
         align-items: center;
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 600;
     }
     .text-end {
+        font-size: 14px;
         margin-right: 5px;
     }
     .countdown {
         font-weight: 700;
+        font-size: 14px;
     }
     p {
         margin-bottom: 0;
@@ -358,6 +360,7 @@ section {
     background-color: #fff;
     padding: 10px 9px;
     justify-content: space-between;
+    position: sticky !important;
     .icon-footer {
         font-size: 25px;
     }
@@ -392,5 +395,10 @@ section {
         margin-left: 10px;
         flex-grow: 1;
         text-align: center;
+        height: 100%;
     }
+}
+.image-product{
+    width: 100%;
+    height: auto;
 }

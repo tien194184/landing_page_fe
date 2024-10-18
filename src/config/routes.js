@@ -2,9 +2,9 @@ const routes = {
     register: '/dang-ky',
     login: '/dang-nhap',
     createProduct: '/product/create',
-    product: '/product/:id',
+    product: '/product/:slug',
     editProduct: '/edit-product/:id',
-    payment: '/payment/product/:id',
+    payment: '/payment/product/:slug',
 };
 
 export default routes;

@@ -1,23 +1,34 @@
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
+import React, { useState } from 'react';
+import './modal.scss'; // Giả sử bạn có SCSS cho modal
 
-function ModalBtn({ show, handleClose, handleDelete, textHeader, textBody, textFooter }) {
+const ModalComponent = () => {
+    const [isOpen, setIsOpen] = useState(true);
+
+    const handleClose = () => {
+        setIsOpen(false);
+    };
+
     return (
-        <Modal show={show} onHide={handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>{textHeader}</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>{textBody}</Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" size="lg" onClick={handleClose}>
-                    Hủy
-                </Button>
-                <Button variant="danger" size="lg" onClick={handleDelete}>
-                    {textFooter}
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+            {isOpen && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <h3>Thêm địa chỉ giao hàng</h3>
+                        <p>
+                            Tài khoản của bạn không có địa chỉ giao hàng. Thêm địa chỉ để
+                            tiến hành thanh toán.
+                        </p>
+                        <div className="modal-actions">
+                            <button className="modal-later" onClick={handleClose}>
+                                Để sau
+                            </button>
+                            <button className="modal-add">Thêm</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
-}
+};
 
-export default ModalBtn;
+export default ModalComponent;
