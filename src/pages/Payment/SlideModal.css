@@ -1,0 +1,81 @@
+/* Slide modal content */
+.slide-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100vw;
+    height: 100%;
+    background-color: white;
+    transform: translateX(100%); /* Initially hidden */
+    transition: transform 0.3s ease-in-out;
+}
+.slide-modal-address{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 70vh;
+    background-color: white;
+    transform: translateX(100%); /* Initially hidden */
+    transition: transform 0.3s ease-in-out;
+}
+
+.ReactModal__Content--after-open {
+    transform: translateX(0); /* Slide in */
+}
+
+.ReactModal__Content--before-close {
+    transform: translateX(100%); /* Slide out */
+}
+
+.slide-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
+}
+.slide-overlay-address{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    background-color: rgba(0, 0, 0, 0.5); /* Overlay background */
+}
+.tabs {
+    display: flex;
+    /* justify-content: space-around; */
+    /* margin-bottom: 1rem; */
+    margin: 0px 15px 18px 15px;
+  }
+  
+  .tabs div {
+   margin-right: 10px;
+  }
+  
+  .tabs button.active {
+    background-color: blue;
+    color: white;
+  }
+  
+  .tab-content {
+    max-height: 100%;
+    overflow-y: scroll;
+    height: 60vh;
+    margin: 0 15px;
+  }
+  
+  .location-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+  }
+  
+  .location-item:hover {
+    background-color: #f0f0f0;
+  }
+  

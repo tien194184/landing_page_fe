@@ -1,108 +1,120 @@
-import Button from '../../components/Button/Button';
 import { useState } from 'react';
-import * as authService from '../../services/authService';
+import { Link, useNavigate } from 'react-router-dom';
 import classNames from 'classnames/bind';
 import styles from './Login.module.scss';
-import images from '../../assets/images';
-import { Col, Row } from 'react-bootstrap';
-import config from '../../config';
-import Toast from '../../components/Toast/Toast';
-import { useNavigate } from 'react-router-dom';
+import { AiOutlineUser } from 'react-icons/ai';
+import './Login.css';
+import * as authService from '../../services/authService';
 
 const cx = classNames.bind(styles);
-function Login() {
+
+const Login = () => {
     const navigate = useNavigate();
-    const [taiKhoan, setTaiKhoan] = useState('');
-    const [matKhau, setMatKhau] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState(false);
-
-    const handleTaiKhoanChange = (event) => {
-        setTaiKhoan(event.target.value.trim());
+    const validateForm = () => {
+        if (!email || !password) {
+            setError('Please fill in both email and password.');
+            return false;
+        }
+        setError('');
+        return true;
     };
 
-    const handleMatKhauChange = (event) => {
-        setMatKhau(event.target.value.trim());
-    };
-
-    const handleFormSubmit = async (event) => {
-        const data = {
-            username: taiKhoan,
-            password: matKhau,
-        };
-
-        if (taiKhoan !== '' && matKhau !== '') {
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            const data = { email, password };
             try {
-                const result = await authService.postLogin(data);
-                if (result === true) {
-                    setMessage('Đăng nhập thành công');
-                    setError(false);
-                    navigate('/');
-                    window.location.reload();
-                } else {
-                    setMessage(result);
-                    setError(true);
-                }
+                const result = await authService.login(data);
+                console.log(result);
+                console.log(result);
+                const { token, role, expiration } = result;
+                console.log(token, role, expiration)
+                localStorage.setItem('token', token);
+                localStorage.setItem('role', role);
+                localStorage.setItem('expiration', expiration);
+                // if (result.success === true) {
+                //     window.location.reload();
+                // } else {
+                // }
             } catch (error) {
                 console.error(error);
             }
-        } else {
-            setMessage('Tài khoản hoặc mật khẩu không chính xác');
-            setError(true);
+            // Thực hiện xử lý đăng nhập tại đây, ví dụ gọi API
+            // navigate('/dashboard');
         }
-        setTimeout(() => {
-            setMessage('');
-        }, 3000);
     };
+
     return (
-        <>
-            {!!message && !error && <Toast message={message} success />}
-            {!!message && error && <Toast message={message} error />}
-            <Row className={cx('wrapper', 'flex')}>
-                <Col lg={6}>
-                    <img className={cx('banner')} src={images.banner} alt="" />
-                </Col>
-                <Col lg={6} className={cx('login')}>
-                    <div className={cx('padding-login')}>
-                        <h2>Đăng nhập</h2>
-                        <p>Nếu bạn đã có tài khoản, đăng nhập tại đây</p>
-                        <div className={cx('div-input', 'gird')}>
-                            <label htmlFor="tai-khoan">Tài khoản</label>
-                            <input
-                                id="tai-khoan"
-                                placeholder="Mã số sinh viên"
-                                className={error ? cx('error-input') : cx('input')}
-                                type="text"
-                                value={taiKhoan}
-                                onChange={handleTaiKhoanChange}
-                            />
-                        </div>
-                        <div className={cx('div-input', 'gird')}>
-                            <label htmlFor="mat-khau">Mật khẩu</label>
-                            <input
-                                id="mat-khau"
-                                placeholder="Mật khẩu"
-                                className={error ? cx('error-input') : cx('input')}
-                                type="password"
-                                value={matKhau}
-                                onChange={handleMatKhauChange}
-                            />
-                        </div>
-                        <Button success onClick={handleFormSubmit}>
-                            Đăng nhập
-                        </Button>
-                        <div className={cx('register')}>
-                            Không có tài khoản?{' '}
-                            <Button text small to={config.routes.register}>
-                                Đăng ký
-                            </Button>
-                        </div>
+        <div className="login-container">
+            <div>
+                <img
+                    src="http://res.cloudinary.com/dlkm9tiem/image/upload/v1729680942/uykbohqa9gx5l4a0bdzy.png"
+                    height={'auto'}
+                    width={'100%'}
+                    alt=""
+                />
+            </div>
+
+            <div className="login-header">
+                <div>
+                    <span>Login Account</span>
+                    <span>
+                        <AiOutlineUser />
+                    </span>
+                </div>
+                <p style={{ fontSize: '15px', fontWeight: '500', marginTop: '5px' }}>Welcome back!</p>
+            </div>
+
+            <div className="login-brand">
+                <h1>
+                    Mini<span style={{ marginLeft: '15px' }}>Shop</span>
+                </h1>
+            </div>
+
+            <form onSubmit={handleLogin}>
+                <div style={{ padding: '0 25px', width: '100vw' }} className="form-container">
+                    <div className={cx('flex', 'div-phone')} style={{ marginBottom: '15px' }}>
+                        <input
+                            type="text"
+                            className="input"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)} // Cập nhật giá trị
+                        />
                     </div>
-                </Col>
-            </Row>
-        </>
+                    <div className={cx('flex', 'div-phone')}>
+                        <input
+                            className="input"
+                            type="password" // Đổi thành type "password" cho mật khẩu
+                            placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)} // Cập nhật giá trị
+                        />
+                    </div>
+                    {error && <p style={{ color: 'red', marginTop: '5px' }}>{error}</p>}
+                    <div className="forgot-password" style={{ marginBottom: '25px' }}>
+                        Forget Password ?
+                    </div>
+                    <button type="submit" className="login-button">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <div className="register-link">
+                <p>
+                    Not registered yet?{' '}
+                    <Link to={`/signup`} style={{ color: '#fc2b54' }}>
+                        Create Account
+                    </Link>
+                </p>
+            </div>
+        </div>
     );
-}
+};
 
 export default Login;

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classNames from 'classnames/bind';
 import { IoChevronBackSharp } from 'react-icons/io5';
-import styles from './CreateProduct.module.scss'; // SCSS file của bạn
+import styles from './EditProduct.module.scss'; // SCSS file của bạn
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import CommentItem from '../../components/CommentItem';
@@ -12,6 +12,7 @@ import * as yup from 'yup';
 import * as authService from '../../services/authService';
 import Image from '../../components/Image';
 import { FaStar } from 'react-icons/fa6';
+import { useParams } from 'react-router';
 
 const cx = classNames.bind(styles);
 
@@ -31,14 +32,37 @@ const schema = yup.object().shape({
     threeStarCount: yup.string().required('Số đánh giá 3 sao là bắt buộc'),
 });
 
-function CreateProduct() {
+function EditProduct() {
+    const { slug } = useParams();
+    const [product, setProduct] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                // Make the API call to fetch the product
+                const response = await authService.getProduct(slug);
+
+                // Update the product state
+                setProduct(response.data.product);
+                setComments(response.data.comments);
+                setLoading(false);
+            } catch (err) {
+                setError(err.message);
+                setLoading(false);
+            }
+        };
+        fetchProduct();
+    }, [slug]);
+
     const [isShowStep1, setIsShowStep1] = useState(true);
     const [isShowStep2, setIsShowStep2] = useState(false);
     const [isShowStep3, setIsShowStep3] = useState(false);
     const [isShowStep4, setIsShowStep4] = useState(false);
     const [description, setDescription] = useState('');
     const [productName, setProductName] = useState('');
-    const [price, setPrice] = useState();
+    const [price, setPrice] = useState(product?.price);
     const [oldPrice, setOldPrice] = useState();
     const [discount, setDiscount] = useState();
     const [soldAmount, setSoldAmount] = useState();
@@ -316,7 +340,7 @@ function CreateProduct() {
                                 3
                             </span>
                         </div>
-                        <div>Thêm pixel</div>
+                        <div>Đánh giá</div>
                     </div>
                     <div className={cx('step-item')}>
                         <div className={cx('step')}>
@@ -764,18 +788,18 @@ function CreateProduct() {
                 )}
                 {isShowStep4 ? (
                     <>
-                        <p className={cx('info')}>Thêm pixel</p>
-
-                        <div className={cx('scrollable-div')}>
-                            <GetProduct />
-                        </div>
+                        <p className={cx('info')}>Đánh giá</p>
                     </>
                 ) : (
                     ''
                 )}
                 {isShowStep1 ? (
                     <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep1}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep1}
+                        >
                             Kiểm tra thông tin
                         </button>
                     </div>
@@ -784,10 +808,18 @@ function CreateProduct() {
                 )}
                 {isShowStep2 ? (
                     <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep2}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep2}
+                        >
                             Kiểm tra thông tin
                         </button>
-                        <button className={cx('button-outline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handlePrevStep2}>
+                        <button
+                            className={cx('button-outline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handlePrevStep2}
+                        >
                             Quay về trang thông tin
                         </button>
                     </div>
@@ -796,10 +828,18 @@ function CreateProduct() {
                 )}
                 {isShowStep3 ? (
                     <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep3}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep3}
+                        >
                             Kiểm tra thông tin
                         </button>
-                        <button className={cx('button-outline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handlePrevStep3}>
+                        <button
+                            className={cx('button-outline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handlePrevStep3}
+                        >
                             Quay về trang Bình luận
                         </button>
                     </div>
@@ -832,4 +872,4 @@ function CreateProduct() {
     );
 }
 
-export default CreateProduct;
+export default EditProduct;

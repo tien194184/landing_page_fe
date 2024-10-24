@@ -1,30 +1,15 @@
 import axios from 'axios';
 
 const httpRequest = axios.create({
-    baseURL: "https://landing-page-be-gsuf.onrender.com/"
+    baseURL: 'http://localhost:3001',
 });
 
-export const get = async (
-    path,
-    options = {
-        headers: {
-            // 'Content-Type': 'multipart/form-data',
-        },
-    },
-) => {
+export const get = async (path, options) => {
     const response = await httpRequest.get(path, options);
     return response.data;
 };
 
-export const post = async (
-    path,
-    data,
-    options = {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    },
-) => {
+export const post = async (path, data, options) => {
     const response = await httpRequest.post(path, data, options);
     return response.data;
 };

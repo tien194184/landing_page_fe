@@ -1,7 +1,7 @@
 // GetProduct.jsx
 import React, { useEffect, useState } from 'react';
 import { Link as ScrollLink } from 'react-scroll'; // Renaming Link from react-scroll
-import { Link as RouterLink, useParams } from 'react-router-dom'; // Renaming Link from react-router-dom
+import { Link as RouterLink, useNavigate, useParams } from 'react-router-dom'; // Renaming Link from react-router-dom
 
 import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
@@ -34,11 +34,20 @@ import * as authService from '../../services/authService';
 const cx = classNames.bind(styles);
 
 function GetProduct() {
+    const navigate = useNavigate();
     const { slug } = useParams();
     const [product, setProduct] = useState(null);
     const [comments, setComments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [buttonState, setButtonState] = useState('Nhận');
+    const handleButtonClick = () => {
+        if (buttonState === 'Nhận') {
+            setButtonState('Sử dụng');
+        } else if (buttonState === 'Sử dụng') {
+            navigate(`/payment/product/${slug}`);
+        }
+    };
 
     useEffect(() => {
         const fetchProduct = async () => {
@@ -302,7 +311,12 @@ function GetProduct() {
                                 </div>
                             </div>
                             <div>
-                                <button className={cx('primary', 'small')}>Nhận</button>
+                                <button
+                                    className={cx('primary', 'small', { 'out-line': buttonState === 'Sử dụng' })}
+                                    onClick={handleButtonClick}
+                                >
+                                    {buttonState}
+                                </button>
                             </div>
                         </div>
                     </div>

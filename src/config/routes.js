@@ -1,9 +1,9 @@
 const routes = {
-    register: '/dang-ky',
-    login: '/dang-nhap',
+    register: '/signup',
+    login: '/login',
     createProduct: '/product/create',
     product: '/product/:slug',
-    editProduct: '/edit-product/:id',
+    editProduct: '/product/edit/:id',
     payment: '/payment/product/:slug',
 };
 

@@ -4,8 +4,15 @@ import { publicRoutes, privateRoutesAdmin, privateRoutesUser } from './routes';
 import { DefaultLayout } from './layouts';
 
 function App() {
-    const authenticated = true;
-    const authority = "USER";
+    const checkAuth = () => {
+        const token = localStorage.getItem('token');
+        const expiration = localStorage.getItem('expiration');
+        const role = Number(localStorage.getItem('role'));
+        // Kiểm tra xem token có tồn tại và chưa hết hạn
+        const isValidToken = token && expiration && new Date(expiration) > new Date();
+
+        return { isAuthenticated: isValidToken, role }; // Trả về trạng thái xác thực và role
+    };
 
     const renderRoute = (route, index) => {
         let Layout = DefaultLayout;
@@ -27,14 +34,16 @@ function App() {
             />
         );
     };
+    const { isAuthenticated, role } = checkAuth();
+    console.log(isAuthenticated, role);
 
     return (
         <BrowserRouter>
             <div className="App">
                 <Routes>
                     {publicRoutes.map(renderRoute)}
-                    {authenticated && authority === 'ADMIN' && privateRoutesAdmin.map(renderRoute)}
-                    {authenticated && authority === 'USER' && privateRoutesUser.map(renderRoute)}
+                    {isAuthenticated && role === 2 && privateRoutesAdmin.map(renderRoute)}
+                    {isAuthenticated && role === 1 && privateRoutesUser.map(renderRoute)}
                 </Routes>
             </div>
         </BrowserRouter>
