@@ -1,10 +1,12 @@
 const routes = {
     register: '/signup',
     login: '/login',
-    createProduct: '/product/create',
+    createProduct: '/user/product/create',
     product: '/product/:slug',
-    editProduct: '/product/edit/:id',
+    editProduct: '/user/product/edit/:slug',
     payment: '/payment/product/:slug',
+    manageOrder: '/user/manage-order',
+    manageProduct: '/user/manage-product'
 };
 
 export default routes;

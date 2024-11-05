@@ -1,4 +1,4 @@
-.flex{
+.flex {
     display: flex;
 }
 .nav-payment {
@@ -137,10 +137,12 @@
 }
 .container-policy {
     margin: 15px 18px;
+    padding-bottom: 118px;
 }
 
 .footer {
     padding: 15px 18px;
+    border: 1px solid whitesmoke;
     .btn-order {
         width: 100%;
         font-size: 15px;
@@ -189,7 +191,12 @@
             font-size: 15px;
             border: none;
             border-radius: 2px;
-            padding: 14px 15px;
+            padding: 18px 15px;
+            margin-bottom: 1px;
+        }
+
+        input:focus {
+            outline: none;
         }
         .div-phone {
             background-color: #ffffff;
@@ -223,17 +230,47 @@
         padding: 10px 0;
         margin: 10px 0;
     }
+    .btn-save-address:disabled {
+        // background-color: #ccc;
+        // color: #666; /* Màu chữ xám nhạt */
+        // cursor: not-allowed; /* Đổi con trỏ thành dấu cấm */
+        opacity: 0.6; /* Giảm độ đậm */
+        pointer-events: none; /* Vô hiệu hóa tất cả các sự kiện */
+    }
+
     .bold {
         font-weight: 600;
     }
 }
-.container-model-info-address{
+.container-model-info-address {
     z-index: 50;
-
 }
-.title-address{
-    font-size: 16px;
+.title-address {
+    font-size: 17px;
     font-weight: 600;
     margin-top: 17px;
     margin-bottom: 20px;
 }
+// .modal-set-address {
+    .add-button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .cancel-button {
+        padding: 10px 20px;
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button-container {
+        display: flex;
+        justify-content: center;
+    }
+// }
+

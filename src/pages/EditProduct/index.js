@@ -1,68 +1,41 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import styles from './EditProduct.module.scss'; // SCSS file của bạn
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import CommentItem from '../../components/CommentItem';
-import GetProduct from './../Product/index';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import * as authService from '../../services/authService';
 import Image from '../../components/Image';
-import { FaStar } from 'react-icons/fa6';
+import { FaStar, FaUpload } from 'react-icons/fa6';
+import { LuImagePlus } from 'react-icons/lu';
+import TextField from '@mui/material/TextField';
+import { MdModeEditOutline } from 'react-icons/md';
+import SuccessPopup from '../../components/SuccessPopup';
+import './index.css';
 import { useParams } from 'react-router';
+import { FaTimesCircle } from 'react-icons/fa';
+import { RiImageEditFill } from 'react-icons/ri';
+import { PiUploadSimple } from 'react-icons/pi';
 
 const cx = classNames.bind(styles);
-
-const schema = yup.object().shape({
-    productName: yup.string().required('Tên sản phẩm là bắt buộc'),
-    price: yup.number().required('Giá là bắt buộc').min(1, 'Giá phải lớn hơn 0'),
-    oldPrice: yup.number().required('Giá cũ là bắt buộc'),
-    discount: yup.number().required('Voucher giảm giá là bắt buộc'),
-    soldAmount: yup.number().required('Số lượng đã bán là bắt buộc'),
-    reviewCount: yup.number().required('Số lượt đánh giá sản phẩm là bắt buộc'),
-    storeRevenue: yup.string().required('Tổng doanh số của cửa hàng là bắt buộc'),
-    productCount: yup.string().required('Số sản phẩm là bắt buộc'),
-    reviewCountStore: yup.string().required('Số đánh giá dành cho cửa hàng là bắt buộc'),
-    photoReviewCount: yup.string().required('Số đánh giá chứa ảnh hoặc video là bắt buộc'),
-    fiveStarCount: yup.string().required('Số đánh giá 5 sao là bắt buộc'),
-    fourStarCount: yup.string().required('Số đánh giá 4 sao là bắt buộc'),
-    threeStarCount: yup.string().required('Số đánh giá 3 sao là bắt buộc'),
-});
 
 function EditProduct() {
     const { slug } = useParams();
     const [product, setProduct] = useState(null);
     const [comments, setComments] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                // Make the API call to fetch the product
-                const response = await authService.getProduct(slug);
-
-                // Update the product state
-                setProduct(response.data.product);
-                setComments(response.data.comments);
-                setLoading(false);
-            } catch (err) {
-                setError(err.message);
-                setLoading(false);
-            }
-        };
-        fetchProduct();
-    }, [slug]);
-
+    const [showPopup, setShowPopup] = useState(false);
+    const [isSubmit1, setIsSubmit1] = useState(false);
+    const [isSubmit2, setIsSubmit2] = useState(false);
+    const [isSubmit3, setIsSubmit3] = useState(false);
+    const [isSubmit4, setIsSubmit4] = useState(false);
     const [isShowStep1, setIsShowStep1] = useState(true);
     const [isShowStep2, setIsShowStep2] = useState(false);
     const [isShowStep3, setIsShowStep3] = useState(false);
     const [isShowStep4, setIsShowStep4] = useState(false);
     const [description, setDescription] = useState('');
     const [productName, setProductName] = useState('');
-    const [price, setPrice] = useState(product?.price);
+    const [nameShop, setNameShop] = useState('');
+    const [price, setPrice] = useState();
     const [oldPrice, setOldPrice] = useState();
     const [discount, setDiscount] = useState();
     const [soldAmount, setSoldAmount] = useState();
@@ -87,8 +60,23 @@ function EditProduct() {
     const [productType6, setProductType6] = useState();
     const [comment6, setComment6] = useState();
 
+    // product image
+    const [image1, setImage1] = useState('');
+    const [image2, setImage2] = useState('');
+    const [image3, setImage3] = useState('');
+    const [image4, setImage4] = useState('');
+    const [image5, setImage5] = useState('');
+    const [image6, setImage6] = useState('');
+    const [image7, setImage7] = useState('');
+    const [image8, setImage8] = useState('');
+    const [image9, setImage9] = useState('');
+    const [image10, setImage10] = useState('');
+
     const handleProductNameChange = (event) => {
         setProductName(event.target.value);
+    };
+    const handleNameShopChange = (event) => {
+        setNameShop(event.target.value);
     };
     const handlePriceChange = (event) => {
         setPrice(event.target.value.trim());
@@ -163,7 +151,48 @@ function EditProduct() {
         setComment6(event.target.value);
     };
 
-    const [imageProducts, setImageProducts] = useState([]);
+    const handleImage1Change = (event) => {
+        const file = event.target.files[0];
+        setImage1(file);
+    };
+    const handleImage2Change = (event) => {
+        const file = event.target.files[0];
+        setImage2(file);
+    };
+    const handleImage3Change = (event) => {
+        const file = event.target.files[0];
+        setImage3(file);
+    };
+    const handleImage4Change = (event) => {
+        const file = event.target.files[0];
+        setImage4(file);
+    };
+    const handleImage5Change = (event) => {
+        const file = event.target.files[0];
+        setImage5(file);
+    };
+    const handleImage6Change = (event) => {
+        const file = event.target.files[0];
+        setImage6(file);
+    };
+    const handleImage7Change = (event) => {
+        const file = event.target.files[0];
+        setImage7(file);
+    };
+    const handleImage8Change = (event) => {
+        const file = event.target.files[0];
+        setImage8(file);
+    };
+    const handleImage9Change = (event) => {
+        const file = event.target.files[0];
+        setImage9(file);
+    };
+    const handleImage10Change = (event) => {
+        const file = event.target.files[0];
+        setImage10(file);
+    };
+
+    const [imageShop, setImageShop] = useState('');
     const [imagesComment1, setImagesComment1] = useState([]);
     const [imagesComment2, setImagesComment2] = useState([]);
     const [imagesComment3, setImagesComment3] = useState([]);
@@ -171,17 +200,16 @@ function EditProduct() {
     const [imagesComment5, setImagesComment5] = useState([]);
     const [imagesComment6, setImagesComment6] = useState([]);
 
-    // Xử lý khi người dùng chọn một ảnh
-    const handleImageChange = (event) => {
-        const files = Array.from(event.target.files); // Convert the FileList to an array
-        setImageProducts(files);
+    const handleImageShopChange = (event) => {
+        const file = event.target.files[0];
+        setImageShop(file);
     };
     const handleImagesCommentChange1 = (event) => {
         const files = Array.from(event.target.files); // Convert the FileList to an array
         setImagesComment1(files);
     };
     const handleImagesCommentChange2 = (event) => {
-        const files = Array.from(event.target.files); // Convert the FileList to an array
+        const files = Array.from(event.target.files); // Convert the FileList to an
         setImagesComment2(files);
     };
     const handleImagesCommentChange3 = (event) => {
@@ -201,25 +229,49 @@ function EditProduct() {
         setImagesComment6(files);
     };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
-
     const handleNextStep1 = async () => {
-        setIsShowStep1(false);
-        setIsShowStep2(true);
+        if (productName && price && oldPrice && discount && soldAmount && reviewCount) {
+            setIsShowStep1(false);
+            setIsShowStep2(true);
+        }
+        setIsSubmit1(true);
     };
     const handleNextStep2 = async () => {
-        setIsShowStep2(false);
-        setIsShowStep3(true);
+        if (
+            nameShop &&
+            storeRevenue &&
+            productCount &&
+            reviewCountStore &&
+            photoReviewCount &&
+            fiveStarCount &&
+            fourStarCount &&
+            threeStarCount
+            // && imageShop
+        ) {
+            setIsShowStep2(false);
+            setIsShowStep3(true);
+        }
+        setIsSubmit2(true);
     };
     const handleNextStep3 = async () => {
-        setIsShowStep3(false);
-        setIsShowStep4(true);
+        if (
+            productType1 &&
+            comment1 &&
+            productType2 &&
+            comment2 &&
+            productType3 &&
+            comment3 &&
+            productType4 &&
+            comment4 &&
+            productType5 &&
+            comment5 &&
+            productType6 &&
+            comment6
+        ) {
+            setIsShowStep3(false);
+            setIsShowStep4(true);
+        }
+        setIsSubmit3(true);
     };
     const handlePrevStep2 = async () => {
         setIsShowStep1(true);
@@ -233,11 +285,21 @@ function EditProduct() {
         setIsShowStep3(true);
         setIsShowStep4(false);
     };
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        setIsSubmit4(true);
         const data = new FormData();
-        imageProducts.forEach((image) => {
-            data.append('imageProducts[]', image); // Append each image to the FormData as an array
-        });
+        data.append('image1', image1);
+        data.append('image2', image2);
+        data.append('image3', image3);
+        data.append('image4', image4);
+        data.append('image5', image5);
+        data.append('image6', image6);
+        data.append('image7', image7);
+        data.append('image8', image8);
+        data.append('image9', image9);
+        data.append('image10', image10);
+        data.append('imageShop', imageShop);
         data.append('productName', productName);
         data.append('price', price);
         data.append('oldPrice', oldPrice);
@@ -290,20 +352,69 @@ function EditProduct() {
         data.append('comment6', comment6);
 
         try {
-            const result = await authService.post(data);
+            const result = await authService.editProduct(slug, data);
             console.log(result);
-            // if (result.success === true) {
-            //     window.location.reload();
-            // } else {
-            // }
+            if (result?.success) {
+                setShowPopup(true);
+            } else {
+            }
         } catch (error) {
             console.error(error);
         }
     };
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                // Make the API call to fetch the product
+                const response = await authService.getProduct(slug);
 
+                // Update the product state
+                const product = response.data.product;
+                const comments = response.data.comments;
+                setProduct(product);
+                setProductName(product?.productName);
+                setPrice(product?.price);
+                setOldPrice(product?.oldPrice);
+                setDiscount(product?.discount);
+                setSoldAmount(product?.soldAmount);
+                setReviewCount(product?.reviewCount);
+                setNameShop(product.shop);
+                setStoreRevenue(product.storeRevenue);
+                setProductCount(product.productCount);
+                setReviewCountStore(product.reviewCountStore);
+                setPhotoReviewCount(product.photoReviewCount);
+                setFiveStarCount(product.fiveStarCount);
+                setFourStarCount(product.fourStarCount);
+                setThreeStarCount(product.threeStarCount);
+                setProductType1(comments[0].productType);
+                setComment1(comments[0].comment);
+                setProductType2(comments[1].productType);
+                setComment2(comments[1].comment);
+                setProductType3(comments[2].productType);
+                setComment3(comments[2].comment);
+                setProductType4(comments[3].productType);
+                setComment4(comments[3].comment);
+                setProductType5(comments[4].productType);
+                setComment5(comments[4].comment);
+                setProductType6(comments[5].productType);
+                setComment6(comments[5].comment);
+                setDescription(product.description);
+                // setLoading(false);
+            } catch (err) {
+                // setError(err.message);
+                // setLoading(false);
+            }
+        };
+        fetchProduct();
+    }, [slug]);
+
+    const handleDeleteImageProduct = async (image) => {
+        const response = await authService.handleDeleteImageProduct(slug, { image: image });
+    };
     return (
-        <form onSubmit={handleSubmit((e) => console.log(e))}>
-            <div style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
+        <>
+            {showPopup && <SuccessPopup />}
+            <div className="container-create" style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                 <div className={cx('nav-payment', 'flex')}>
                     <div
                         xs={1}
@@ -316,12 +427,12 @@ function EditProduct() {
                     </div>
                     <div style={{ position: 'relative', width: '100%' }}>
                         <div className={cx('title-page')} style={{ textAlign: 'center' }}>
-                            Tạo sản phẩm mới
+                            Thay đổi thông tin sản phẩm
                         </div>
                     </div>
                 </div>
 
-                <div className="flex" style={{ justifyContent: 'space-between', padding: '0 15px' }}>
+                <div className="flex" style={{ justifyContent: 'space-between', width: '100%' }}>
                     <div className={cx('step-item')}>
                         <div className={cx('step')}>
                             <span className={cx('step-counter')}>1</span>
@@ -340,7 +451,7 @@ function EditProduct() {
                                 3
                             </span>
                         </div>
-                        <div>Đánh giá</div>
+                        <div>Bình luận</div>
                     </div>
                     <div className={cx('step-item')}>
                         <div className={cx('step')}>
@@ -348,87 +459,642 @@ function EditProduct() {
                         </div>
                         <div>Hoàn thành</div>
                     </div>
+                    <div className={cx('line-step')}></div>
                 </div>
-                <div className={cx('line-step')}></div>
 
                 {isShowStep1 ? (
                     <div className={cx('container')}>
                         <div style={{ marginBottom: '20px' }}>
                             <p className={cx('info')}>Thông tin sản phẩm</p>
-                            <input
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !productName}
+                                    id="productName"
+                                    label="Tên sản phẩm"
+                                    variant="standard"
+                                    value={productName}
+                                    onChange={handleProductNameChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
+                                id="productName"
                                 placeholder="Tên sản phẩm"
-                                {...register('productName')}
+                                className={errors.productName ? 'input-error' : 'input-field'}
                                 style={{ border: errors.productName ? '1px solid red' : 'none' }}
                                 value={productName}
                                 onChange={handleProductNameChange}
-                            />
+                                />
+                                <label htmlFor="productName" className="input-label">
+                                Tên sản phẩm
+                                </label> */}
 
-                            <div className={cx('flex', 'div-phone')}>
-                                <input
+                            <div className={cx('flex', 'div-phone')} style={{ marginBottom: '10px' }}>
+                                <div style={{ paddingRight: '10px', backgroundColor: 'rgb(245, 245, 245)' }}>
+                                    <TextField
+                                        error={isSubmit1 && !price}
+                                        id="price"
+                                        label="Giá"
+                                        variant="standard"
+                                        value={price}
+                                        onChange={handlePriceChange}
+                                    />
+                                </div>
+                                <div style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
+                                    <TextField
+                                        error={isSubmit1 && !oldPrice}
+                                        id="oldPrice"
+                                        label="Giá cũ"
+                                        variant="standard"
+                                        value={oldPrice}
+                                        onChange={handleOldPriceChange}
+                                    />
+                                </div>
+                                {/* <input
                                     type="number"
                                     placeholder="Giá"
                                     {...register('price')}
                                     style={{ border: errors.price ? '1px solid red' : 'none' }}
                                     value={price}
                                     onChange={handlePriceChange}
-                                />
-                                <input
+                                    /> */}
+                                {/* <input
                                     type="number"
                                     placeholder="Giá cũ"
                                     {...register('oldPrice')}
                                     style={{ border: errors.oldPrice ? '1px solid red' : 'none' }}
                                     value={oldPrice}
                                     onChange={handleOldPriceChange}
+                                    /> */}
+                            </div>
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !discount}
+                                    id="discount"
+                                    label="Voucher giảm giá"
+                                    variant="standard"
+                                    value={discount}
+                                    onChange={handleDiscountChange}
                                 />
                             </div>
-                            <input
+                            {/* <input
                                 type="number"
                                 placeholder="Voucher giảm giá"
                                 {...register('discount')}
                                 style={{ border: errors.discount ? '1px solid red' : 'none' }}
                                 value={discount}
                                 onChange={handleDiscountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !soldAmount}
+                                    id="soldAmount"
+                                    label="Số lượng đã bán"
+                                    variant="standard"
+                                    value={soldAmount}
+                                    onChange={handleSoldAmountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="number"
                                 placeholder="Số lượng đã bán"
                                 {...register('soldAmount')}
                                 style={{ border: errors.soldAmount ? '1px solid red' : 'none' }}
                                 value={soldAmount}
                                 onChange={handleSoldAmountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !reviewCount}
+                                    id="reviewCount"
+                                    label="Số lượt đánh giá"
+                                    variant="standard"
+                                    value={reviewCount}
+                                    onChange={handleReviewCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="number"
-                                placeholder="Số lượt đánh giá sản phẩm"
+                                placeholder="Số lượt đánh giá"
                                 {...register('reviewCount')}
                                 style={{ border: errors.reviewCount ? '1px solid red' : 'none' }}
                                 value={reviewCount}
                                 onChange={handleReviewCountChange}
-                            />
+                                /> */}
                         </div>
 
                         <div>
-                            <p className={cx('info')}>Hình ảnh sản phẩm</p>
-                            <input
-                                type="file"
-                                multiple
-                                // accept="image/*"
-                                onChange={handleImageChange} // Bắt sự kiện khi chọn file
-                            />
-
-                            <div>
-                                {/* Hiển thị ảnh đã chọn */}
-                                <div>
-                                    {imageProducts.length > 0 &&
-                                        imageProducts.map((image, index) => (
+                            <p className={cx('info')}>Hình ảnh</p>
+                            <div className={cx('product-images')}>
+                                <div className={cx('container-image')}>
+                                    {!image1 && product?.image1 && (
+                                        <label htmlFor="image1">
+                                            <img className={cx('product-image')} src={product.image1} alt={``} />
+                                        </label>
+                                    )}
+                                    {image1 && (
+                                        <label htmlFor="image1">
                                             <img
-                                                key={index}
-                                                src={URL.createObjectURL(image)}
-                                                alt={`Selected ${index}`}
-                                                style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image1)}
+                                                alt={``}
                                             />
-                                        ))}
+                                        </label>
+                                    )}
+                                    {!product?.image1 && !image1 && (
+                                        <label htmlFor="image1" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image1"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage1Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image1: '',
+                                            }));
+                                            setImage1('');
+                                            handleDeleteImageProduct(1);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image2 && product?.image2 && (
+                                        <label htmlFor="image2">
+                                            <img className={cx('product-image')} src={product.image2} alt={``} />
+                                        </label>
+                                    )}
+                                    {image2 && (
+                                        <label htmlFor="image2">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image2)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image2 && !image2 && (
+                                        <label htmlFor="image2" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image2"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage2Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image2: '',
+                                            }));
+                                            setImage2('');
+                                            handleDeleteImageProduct(2);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image3 && product?.image3 && (
+                                        <label htmlFor="image3">
+                                            <img className={cx('product-image')} src={product.image3} alt={``} />
+                                        </label>
+                                    )}
+                                    {image3 && (
+                                        <label htmlFor="image3">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image3)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image3 && !image3 && (
+                                        <label htmlFor="image3" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image3"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage3Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image3: '',
+                                            }));
+                                            setImage3('');
+                                            handleDeleteImageProduct(3);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image4 && product?.image4 && (
+                                        <label htmlFor="image4">
+                                            <img className={cx('product-image')} src={product.image4} alt={``} />
+                                        </label>
+                                    )}
+                                    {image4 && (
+                                        <label htmlFor="image4">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image4)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image4 && !image4 && (
+                                        <label htmlFor="image4" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image4"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage4Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image4: '',
+                                            }));
+                                            setImage4('');
+                                            handleDeleteImageProduct(4);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image5 && product?.image5 && (
+                                        <label htmlFor="image5">
+                                            <img className={cx('product-image')} src={product.image5} alt={``} />
+                                        </label>
+                                    )}
+                                    {image5 && (
+                                        <label htmlFor="image5">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image5)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image5 && !image5 && (
+                                        <label htmlFor="image5" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image5"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage5Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image5: '',
+                                            }));
+                                            setImage5('');
+                                            handleDeleteImageProduct(5);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image6 && product?.image6 && (
+                                        <label htmlFor="image6">
+                                            <img className={cx('product-image')} src={product.image6} alt={``} />
+                                        </label>
+                                    )}
+                                    {image6 && (
+                                        <label htmlFor="image6">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image6)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image6 && !image6 && (
+                                        <label htmlFor="image6" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image6"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage6Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image6: '',
+                                            }));
+                                            setImage6('');
+                                            handleDeleteImageProduct(6);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image7 && product?.image7 && (
+                                        <label htmlFor="image7">
+                                            <img className={cx('product-image')} src={product.image7} alt={``} />
+                                        </label>
+                                    )}
+                                    {image7 && (
+                                        <label htmlFor="image7">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image7)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image7 && !image7 && (
+                                        <label htmlFor="image7" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image7"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage7Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image7: '',
+                                            }));
+                                            setImage7('');
+                                            handleDeleteImageProduct(7);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image8 && product?.image8 && (
+                                        <label htmlFor="image8">
+                                            <img className={cx('product-image')} src={product.image8} alt={``} />
+                                        </label>
+                                    )}
+                                    {image8 && (
+                                        <label htmlFor="image8">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image8)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image8 && !image8 && (
+                                        <label htmlFor="image8" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image8"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage8Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image8: '',
+                                            }));
+                                            setImage8('');
+                                            handleDeleteImageProduct(8);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image9 && product?.image9 && (
+                                        <label htmlFor="image9">
+                                            <img className={cx('product-image')} src={product.image9} alt={``} />
+                                        </label>
+                                    )}
+                                    {image9 && (
+                                        <label htmlFor="image9">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image9)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image9 && !image9 && (
+                                        <label htmlFor="image9" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image9"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage9Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image9: '',
+                                            }));
+                                            setImage9('');
+                                            handleDeleteImageProduct(9);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
+                                </div>
+                                <div className={cx('container-image')}>
+                                    {!image10 && product?.image10 && (
+                                        <label htmlFor="image10">
+                                            <img className={cx('product-image')} src={product.image10} alt={``} />
+                                        </label>
+                                    )}
+                                    {image10 && (
+                                        <label htmlFor="image10">
+                                            <img
+                                                className={cx('product-image')}
+                                                src={URL.createObjectURL(image10)}
+                                                alt={``}
+                                            />
+                                        </label>
+                                    )}
+                                    {!product?.image10 && !image10 && (
+                                        <label htmlFor="image10" className={cx('label-image-product')}>
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+                                    <input
+                                        id="image10"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImage10Change}
+                                    />
+                                    <span
+                                        className={cx('icon-remove-image')}
+                                        onClick={() => {
+                                            setProduct((product) => ({
+                                                ...product,
+                                                image10: '',
+                                            }));
+                                            setImage10('');
+                                            handleDeleteImageProduct(10);
+                                        }}
+                                    >
+                                        <FaTimesCircle />
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -492,62 +1158,185 @@ function EditProduct() {
                     <div className={cx('container')}>
                         <div>
                             <p className={cx('info')}>Thông tin cửa hàng</p>
-                            <input
+                            <div className="flex" style={{ marginBottom: '10px' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        id="imageShop"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImageShopChange}
+                                    />
+                                    {imageShop ? (
+                                        <div className={cx('preview-image-shop')}>
+                                            <img
+                                                src={URL.createObjectURL(imageShop)}
+                                                alt={`Selected`}
+                                                style={{ width: '100px', height: '100px' }}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <label
+                                            htmlFor="imageShop"
+                                            className={cx('label-image-shop', !imageShop && isSubmit2 ? 'error' : '')}
+                                        >
+                                            <div>
+                                                <p
+                                                    style={{
+                                                        color: 'black',
+                                                        justifyContent: 'center',
+                                                        display: 'flex',
+                                                    }}
+                                                >
+                                                    <PiUploadSimple size={27} />
+                                                </p>
+                                                <p>Tải ảnh lên</p>
+                                            </div>
+                                        </label>
+                                    )}
+
+                                    <label htmlFor="imageShop" className={cx('label-image-edit')}>
+                                        <span style={{ color: '#fc2b54' }}>
+                                            <MdModeEditOutline size={18} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div className={cx('div-name-shop')}>
+                                    <TextField
+                                        error={isSubmit2 && !nameShop}
+                                        id="nameShop"
+                                        label="Tên Shop"
+                                        variant="standard"
+                                        value={nameShop}
+                                        onChange={handleNameShopChange}
+                                    />
+                                </div>
+                            </div>
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !storeRevenue}
+                                    id="storeRevenue"
+                                    label="Tổng doanh số của cửa hàng"
+                                    variant="standard"
+                                    value={storeRevenue}
+                                    onChange={handleStoreRevenueChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Tổng doanh số của cửa hàng"
                                 {...register('storeRevenue')}
                                 style={{ border: errors.storeRevenue ? '1px solid red' : 'none' }}
                                 value={storeRevenue}
                                 onChange={handleStoreRevenueChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !productCount}
+                                    id="productCount"
+                                    label="Số sản phẩm"
+                                    variant="standard"
+                                    value={productCount}
+                                    onChange={handleProductCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số sản phẩm"
                                 {...register('productCount')}
                                 style={{ border: errors.productCount ? '1px solid red' : 'none' }}
                                 value={productCount}
                                 onChange={handleProductCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !reviewCountStore}
+                                    id="reviewCountStore"
+                                    label="Số đánh giá dành cho cửa hàng"
+                                    variant="standard"
+                                    value={reviewCountStore}
+                                    onChange={handleReviewCountStoreChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá dành cho cửa hàng"
                                 {...register('reviewCountStore')}
                                 style={{ border: errors.reviewCountStore ? '1px solid red' : 'none' }}
                                 value={reviewCountStore}
                                 onChange={handleReviewCountStoreChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !photoReviewCount}
+                                    id="photoReviewCount"
+                                    label="Số đánh giá chứa ảnh hoặc video"
+                                    variant="standard"
+                                    value={photoReviewCount}
+                                    onChange={handlePhotoReviewCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá chứa ảnh hoặc video"
                                 {...register('photoReviewCount')}
                                 style={{ border: errors.photoReviewCount ? '1px solid red' : 'none' }}
                                 value={photoReviewCount}
                                 onChange={handlePhotoReviewCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !fiveStarCount}
+                                    id="fiveStarCount"
+                                    label="Số đánh giá 5 sao"
+                                    variant="standard"
+                                    value={fiveStarCount}
+                                    onChange={handleFiveStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 5 sao"
                                 {...register('fiveStarCount')}
                                 style={{ border: errors.fiveStarCount ? '1px solid red' : 'none' }}
                                 value={fiveStarCount}
                                 onChange={handleFiveStarCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !fourStarCount}
+                                    id="fourStarCount"
+                                    label="Số đánh giá 4 sao"
+                                    variant="standard"
+                                    value={fourStarCount}
+                                    onChange={handleFourStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 4 sao"
                                 {...register('fourStarCount')}
                                 style={{ border: errors.fourStarCount ? '1px solid red' : 'none' }}
                                 value={fourStarCount}
                                 onChange={handleFourStarCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !threeStarCount}
+                                    id="threeStarCount"
+                                    label="Số đánh giá 3 sao"
+                                    variant="standard"
+                                    value={threeStarCount}
+                                    onChange={handleThreeStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 3 sao"
                                 {...register('threeStarCount')}
                                 style={{ border: errors.threeStarCount ? '1px solid red' : 'none' }}
                                 value={threeStarCount}
                                 onChange={handleThreeStarCountChange}
-                            />
+                                /> */}
                         </div>
                     </div>
                 ) : (
@@ -556,9 +1345,11 @@ function EditProduct() {
 
                 {isShowStep3 ? (
                     <>
-                        <div style={{ marginBottom: '20px' }}>
-                            <p className={cx('info')}>Tạo đánh giá</p>
-                            <div>
+                        <div className={cx('container-comment')}>
+                            <p className={cx('info')} style={{ marginLeft: '0' }}>
+                                Tạo đánh giá
+                            </p>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -572,31 +1363,70 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange1} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload1"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange1}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px', width: '100%' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType1}
+                                        id="productType1"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
+                                        value={productType1}
+                                        onChange={handleProductTypeChange1}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType1')}
                                         style={{ border: errors.productType1 ? '1px solid red' : 'none' }}
                                         value={productType1}
                                         onChange={handleProductTypeChange1}
+                                        /> */}
+                                </div>
+                                <div className="flex" style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment1}
+                                        id="comment1"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment1}
+                                        onChange={handleCommentChange1}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment1')}
                                         style={{ border: errors.comment1 ? '1px solid red' : 'none' }}
                                         value={comment1}
                                         onChange={handleCommentChange1}
-                                    />
-                                </p>
+                                    /> */}
+                                    <label htmlFor="imageCommentUpload1" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment1.length > 0 &&
+                                            imagesComment1.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
 
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -610,30 +1440,69 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange2} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload2"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange2}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px', width: '100%' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType2}
+                                        id="productType2"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
+                                        value={productType2}
+                                        onChange={handleProductTypeChange2}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType2')}
                                         style={{ border: errors.productType2 ? '1px solid red' : 'none' }}
                                         value={productType2}
                                         onChange={handleProductTypeChange2}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment2}
+                                        id="comment2"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment2}
+                                        onChange={handleCommentChange2}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment2')}
                                         style={{ border: errors.comment2 ? '1px solid red' : 'none' }}
                                         value={comment2}
                                         onChange={handleCommentChange2}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload2" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment2.length > 0 &&
+                                            imagesComment2.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -647,30 +1516,69 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange3} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload3"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange3}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType3}
+                                        id="productType3"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
+                                        value={productType3}
+                                        onChange={handleProductTypeChange3}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType3')}
                                         style={{ border: errors.productType3 ? '1px solid red' : 'none' }}
                                         value={productType3}
                                         onChange={handleProductTypeChange3}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment3}
+                                        id="comment3"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment3}
+                                        onChange={handleCommentChange3}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment3')}
                                         style={{ border: errors.comment3 ? '1px solid red' : 'none' }}
                                         value={comment3}
                                         onChange={handleCommentChange3}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload3" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment3.length > 0 &&
+                                            imagesComment3.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -684,30 +1592,71 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange4} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType4')}
-                                        style={{ border: errors.productType4 ? '1px solid red' : 'none' }}
+                                <input
+                                    id="imageCommentUpload4"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange4}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType4}
+                                        id="productType4"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
                                         value={productType4}
                                         onChange={handleProductTypeChange4}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
+                                        type="text"
+                                        placeholder="Loại mặt hàng"
+                                        {...register('productType4')}
+                                        style={{
+                                            border: errors.productType4 ? '1px solid red' : 'none',
+                                            }}
+                                            value={productType4}
+                                            onChange={handleProductTypeChange4}
+                                            /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment4}
+                                        id="comment4"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment4}
+                                        onChange={handleCommentChange4}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment4')}
                                         style={{ border: errors.comment4 ? '1px solid red' : 'none' }}
                                         value={comment4}
                                         onChange={handleCommentChange4}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload4" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment4.length > 0 &&
+                                            imagesComment4.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -721,30 +1670,69 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange5} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload5"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange5}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType5}
+                                        id="productType5"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
+                                        value={productType5}
+                                        onChange={handleProductTypeChange5}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType5')}
                                         style={{ border: errors.productType5 ? '1px solid red' : 'none' }}
                                         value={productType5}
                                         onChange={handleProductTypeChange5}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment5}
+                                        id="comment5"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment5}
+                                        onChange={handleCommentChange5}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment5')}
                                         style={{ border: errors.comment5 ? '1px solid red' : 'none' }}
                                         value={comment5}
                                         onChange={handleCommentChange5}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload5" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment5.length > 0 &&
+                                            imagesComment5.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -758,28 +1746,67 @@ function EditProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange6} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload6"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange6}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType6}
+                                        id="productType6"
+                                        label="Loại mặt hàng"
+                                        variant="standard"
+                                        value={productType6}
+                                        onChange={handleProductTypeChange6}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType6')}
                                         style={{ border: errors.productType6 ? '1px solid red' : 'none' }}
                                         value={productType6}
                                         onChange={handleProductTypeChange6}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment6}
+                                        id="comment6"
+                                        label="Nhận xét của bạn"
+                                        variant="standard"
+                                        value={comment6}
+                                        onChange={handleCommentChange6}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment6')}
                                         style={{ border: errors.comment6 ? '1px solid red' : 'none' }}
                                         value={comment6}
                                         onChange={handleCommentChange6}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload6" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment6.length > 0 &&
+                                            imagesComment6.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </>
@@ -788,13 +1815,13 @@ function EditProduct() {
                 )}
                 {isShowStep4 ? (
                     <>
-                        <p className={cx('info')}>Đánh giá</p>
+                        <p className={cx('info')}>Thêm pixel</p>
                     </>
                 ) : (
                     ''
                 )}
                 {isShowStep1 ? (
-                    <div>
+                    <div className={cx('fixed-bottom', 'footer')}>
                         <button
                             className={cx('button-inline')}
                             style={{ fontSize: '16px', padding: '10px' }}
@@ -807,7 +1834,7 @@ function EditProduct() {
                     ''
                 )}
                 {isShowStep2 ? (
-                    <div>
+                    <div className={cx('fixed-bottom', 'footer')}>
                         <button
                             className={cx('button-inline')}
                             style={{ fontSize: '16px', padding: '10px' }}
@@ -820,14 +1847,14 @@ function EditProduct() {
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handlePrevStep2}
                         >
-                            Quay về trang thông tin
+                            Quay về trang Sản phẩm
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
                 {isShowStep3 ? (
-                    <div>
+                    <div className={cx('fixed-bottom', 'footer')}>
                         <button
                             className={cx('button-inline')}
                             style={{ fontSize: '16px', padding: '10px' }}
@@ -840,35 +1867,34 @@ function EditProduct() {
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handlePrevStep3}
                         >
-                            Quay về trang Bình luận
+                            Quay về trang Cửa hàng
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
                 {isShowStep4 ? (
-                    <div>
+                    <div className={cx('fixed-bottom', 'footer')}>
                         <button
                             className={cx('button-inline')}
-                            type="submit"
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handleFormSubmit}
                         >
-                            Submit
+                            Đăng sản phẩm
                         </button>
                         <button
                             className={cx('button-outline')}
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handlePrevStep4}
                         >
-                            Quay về trang Xem trước
+                            Quay về trang Bình luận
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
             </div>
-        </form>
+        </>
     );
 }
 

@@ -5,6 +5,8 @@ import CreateProduct from '../pages/CreateProduct';
 import Product from '../pages/Product';
 import Payment from '../pages/Payment';
 import EditProduct from '../pages/EditProduct';
+import ManageOrder from '../pages/ManageOrder';
+import ManageProduct from './../pages/ManageProduct';
 
 const publicRoutes = [
     { path: config.routes.login, component: Login },
@@ -18,6 +20,9 @@ const privateRoutesUser = [
     { path: config.routes.createProduct, component: CreateProduct },
     { path: config.routes.editProduct, component: EditProduct },
     { path: config.routes.payment, component: Payment },
+    { path: config.routes.manageOrder, component: ManageOrder },
+    { path: config.routes.manageProduct, component: ManageProduct },
+    
     // { path: config.routes.register, component: CreateAccount },
     // { path: config.routes.editProduct, component: EditProduct },
 ];

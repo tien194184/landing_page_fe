@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AiOutlineUser } from 'react-icons/ai';
 import classNames from 'classnames/bind';
 import styles from './Register.module.scss';
-import './Register.css'; // Importing external CSS for styling
+import './Register.css';
 import * as authService from '../../services/authService';
 
 const cx = classNames.bind(styles);

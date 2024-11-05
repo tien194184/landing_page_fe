@@ -1,43 +1,33 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames/bind';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import styles from './CreateProduct.module.scss'; // SCSS file của bạn
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import CommentItem from '../../components/CommentItem';
-import GetProduct from './../Product/index';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import * as authService from '../../services/authService';
 import Image from '../../components/Image';
-import { FaStar } from 'react-icons/fa6';
+import { FaStar, FaUpload } from 'react-icons/fa6';
+import { LuImagePlus } from 'react-icons/lu';
+import TextField from '@mui/material/TextField';
+import { MdModeEditOutline } from 'react-icons/md';
+import SuccessPopup from '../../components/SuccessPopup';
+import './index.css';
 
 const cx = classNames.bind(styles);
 
-const schema = yup.object().shape({
-    productName: yup.string().required('Tên sản phẩm là bắt buộc'),
-    price: yup.number().required('Giá là bắt buộc').min(1, 'Giá phải lớn hơn 0'),
-    oldPrice: yup.number().required('Giá cũ là bắt buộc'),
-    discount: yup.number().required('Voucher giảm giá là bắt buộc'),
-    soldAmount: yup.number().required('Số lượng đã bán là bắt buộc'),
-    reviewCount: yup.number().required('Số lượt đánh giá sản phẩm là bắt buộc'),
-    storeRevenue: yup.string().required('Tổng doanh số của cửa hàng là bắt buộc'),
-    productCount: yup.string().required('Số sản phẩm là bắt buộc'),
-    reviewCountStore: yup.string().required('Số đánh giá dành cho cửa hàng là bắt buộc'),
-    photoReviewCount: yup.string().required('Số đánh giá chứa ảnh hoặc video là bắt buộc'),
-    fiveStarCount: yup.string().required('Số đánh giá 5 sao là bắt buộc'),
-    fourStarCount: yup.string().required('Số đánh giá 4 sao là bắt buộc'),
-    threeStarCount: yup.string().required('Số đánh giá 3 sao là bắt buộc'),
-});
-
 function CreateProduct() {
+    const [showPopup, setShowPopup] = useState(false);
+    const [isSubmit1, setIsSubmit1] = useState(false);
+    const [isSubmit2, setIsSubmit2] = useState(false);
+    const [isSubmit3, setIsSubmit3] = useState(false);
+    const [isSubmit4, setIsSubmit4] = useState(false);
     const [isShowStep1, setIsShowStep1] = useState(true);
     const [isShowStep2, setIsShowStep2] = useState(false);
     const [isShowStep3, setIsShowStep3] = useState(false);
     const [isShowStep4, setIsShowStep4] = useState(false);
     const [description, setDescription] = useState('');
     const [productName, setProductName] = useState('');
+    const [nameShop, setNameShop] = useState('');
     const [price, setPrice] = useState();
     const [oldPrice, setOldPrice] = useState();
     const [discount, setDiscount] = useState();
@@ -65,6 +55,9 @@ function CreateProduct() {
 
     const handleProductNameChange = (event) => {
         setProductName(event.target.value);
+    };
+    const handleNameShopChange = (event) => {
+        setNameShop(event.target.value);
     };
     const handlePriceChange = (event) => {
         setPrice(event.target.value.trim());
@@ -140,6 +133,7 @@ function CreateProduct() {
     };
 
     const [imageProducts, setImageProducts] = useState([]);
+    const [imageShop, setImageShop] = useState('');
     const [imagesComment1, setImagesComment1] = useState([]);
     const [imagesComment2, setImagesComment2] = useState([]);
     const [imagesComment3, setImagesComment3] = useState([]);
@@ -152,12 +146,16 @@ function CreateProduct() {
         const files = Array.from(event.target.files); // Convert the FileList to an array
         setImageProducts(files);
     };
+    const handleImageShopChange = (event) => {
+        const file = event.target.files[0];
+        setImageShop(file);
+    };
     const handleImagesCommentChange1 = (event) => {
         const files = Array.from(event.target.files); // Convert the FileList to an array
         setImagesComment1(files);
     };
     const handleImagesCommentChange2 = (event) => {
-        const files = Array.from(event.target.files); // Convert the FileList to an array
+        const files = Array.from(event.target.files); // Convert the FileList to an
         setImagesComment2(files);
     };
     const handleImagesCommentChange3 = (event) => {
@@ -177,25 +175,49 @@ function CreateProduct() {
         setImagesComment6(files);
     };
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    });
-
     const handleNextStep1 = async () => {
-        setIsShowStep1(false);
-        setIsShowStep2(true);
+        if (productName && price && oldPrice && discount && soldAmount && reviewCount && imageProducts.length) {
+            setIsShowStep1(false);
+            setIsShowStep2(true);
+        }
+        setIsSubmit1(true);
     };
     const handleNextStep2 = async () => {
-        setIsShowStep2(false);
-        setIsShowStep3(true);
+        if (
+            nameShop &&
+            storeRevenue &&
+            productCount &&
+            reviewCountStore &&
+            photoReviewCount &&
+            fiveStarCount &&
+            fourStarCount &&
+            threeStarCount &&
+            imageShop
+        ) {
+            setIsShowStep2(false);
+            setIsShowStep3(true);
+        }
+        setIsSubmit2(true);
     };
     const handleNextStep3 = async () => {
-        setIsShowStep3(false);
-        setIsShowStep4(true);
+        if (
+            productType1 &&
+            comment1 &&
+            productType2 &&
+            comment2 &&
+            productType3 &&
+            comment3 &&
+            productType4 &&
+            comment4 &&
+            productType5 &&
+            comment5 &&
+            productType6 &&
+            comment6
+        ) {
+            setIsShowStep3(false);
+            setIsShowStep4(true);
+        }
+        setIsSubmit3(true);
     };
     const handlePrevStep2 = async () => {
         setIsShowStep1(true);
@@ -209,11 +231,15 @@ function CreateProduct() {
         setIsShowStep3(true);
         setIsShowStep4(false);
     };
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (event) => {
+        event.preventDefault();
+        setIsSubmit4(true);
         const data = new FormData();
         imageProducts.forEach((image) => {
             data.append('imageProducts[]', image); // Append each image to the FormData as an array
         });
+        data.append('imageShop', imageShop);
+        data.append('nameShop', nameShop);
         data.append('productName', productName);
         data.append('price', price);
         data.append('oldPrice', oldPrice);
@@ -268,18 +294,19 @@ function CreateProduct() {
         try {
             const result = await authService.post(data);
             console.log(result);
-            // if (result.success === true) {
-            //     window.location.reload();
-            // } else {
-            // }
+            if (result?.success) {
+                setShowPopup(true);
+            } else {
+            }
         } catch (error) {
             console.error(error);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit((e) => console.log(e))}>
-            <div style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
+        <>
+            {showPopup && <SuccessPopup />}
+            <div className="container-create" style={{ backgroundColor: 'rgb(245, 245, 245)' }}>
                 <div className={cx('nav-payment', 'flex')}>
                     <div
                         xs={1}
@@ -297,7 +324,7 @@ function CreateProduct() {
                     </div>
                 </div>
 
-                <div className="flex" style={{ justifyContent: 'space-between', padding: '0 15px' }}>
+                <div className="flex" style={{ justifyContent: 'space-between', width: '100%' }}>
                     <div className={cx('step-item')}>
                         <div className={cx('step')}>
                             <span className={cx('step-counter')}>1</span>
@@ -316,7 +343,7 @@ function CreateProduct() {
                                 3
                             </span>
                         </div>
-                        <div>Thêm pixel</div>
+                        <div>Bình luận</div>
                     </div>
                     <div className={cx('step-item')}>
                         <div className={cx('step')}>
@@ -324,77 +351,153 @@ function CreateProduct() {
                         </div>
                         <div>Hoàn thành</div>
                     </div>
+                    <div className={cx('line-step')}></div>
                 </div>
-                <div className={cx('line-step')}></div>
 
                 {isShowStep1 ? (
                     <div className={cx('container')}>
                         <div style={{ marginBottom: '20px' }}>
                             <p className={cx('info')}>Thông tin sản phẩm</p>
-                            <input
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !productName}
+                                    id="productName"
+                                    label="Tên sản phẩm"
+                                    variant="outlined"
+                                    value={productName}
+                                    onChange={handleProductNameChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
+                                id="productName"
                                 placeholder="Tên sản phẩm"
-                                {...register('productName')}
+                                className={errors.productName ? 'input-error' : 'input-field'}
                                 style={{ border: errors.productName ? '1px solid red' : 'none' }}
                                 value={productName}
                                 onChange={handleProductNameChange}
-                            />
+                                />
+                                <label htmlFor="productName" className="input-label">
+                                Tên sản phẩm
+                                </label> */}
 
-                            <div className={cx('flex', 'div-phone')}>
-                                <input
+                            <div className={cx('flex', 'div-phone')} style={{ marginBottom: '10px' }}>
+                                <div style={{ paddingRight: '10px', backgroundColor: 'rgb(245, 245, 245)' }}>
+                                    <TextField
+                                        error={isSubmit1 && !price}
+                                        id="price"
+                                        label="Giá"
+                                        variant="outlined"
+                                        value={price}
+                                        onChange={handlePriceChange}
+                                    />
+                                </div>
+                                <div>
+                                    <TextField
+                                        error={isSubmit1 && !oldPrice}
+                                        id="oldPrice"
+                                        label="Giá cũ"
+                                        variant="outlined"
+                                        value={oldPrice}
+                                        onChange={handleOldPriceChange}
+                                    />
+                                </div>
+                                {/* <input
                                     type="number"
                                     placeholder="Giá"
                                     {...register('price')}
                                     style={{ border: errors.price ? '1px solid red' : 'none' }}
                                     value={price}
                                     onChange={handlePriceChange}
-                                />
-                                <input
+                                    /> */}
+                                {/* <input
                                     type="number"
                                     placeholder="Giá cũ"
                                     {...register('oldPrice')}
                                     style={{ border: errors.oldPrice ? '1px solid red' : 'none' }}
                                     value={oldPrice}
                                     onChange={handleOldPriceChange}
+                                    /> */}
+                            </div>
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !discount}
+                                    id="discount"
+                                    label="Voucher giảm giá"
+                                    variant="outlined"
+                                    value={discount}
+                                    onChange={handleDiscountChange}
                                 />
                             </div>
-                            <input
+                            {/* <input
                                 type="number"
                                 placeholder="Voucher giảm giá"
                                 {...register('discount')}
                                 style={{ border: errors.discount ? '1px solid red' : 'none' }}
                                 value={discount}
                                 onChange={handleDiscountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !soldAmount}
+                                    id="soldAmount"
+                                    label="Số lượng đã bán"
+                                    variant="outlined"
+                                    value={soldAmount}
+                                    onChange={handleSoldAmountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="number"
                                 placeholder="Số lượng đã bán"
                                 {...register('soldAmount')}
                                 style={{ border: errors.soldAmount ? '1px solid red' : 'none' }}
                                 value={soldAmount}
                                 onChange={handleSoldAmountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit1 && !reviewCount}
+                                    id="reviewCount"
+                                    label="Số lượt đánh giá"
+                                    variant="outlined"
+                                    value={reviewCount}
+                                    onChange={handleReviewCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="number"
-                                placeholder="Số lượt đánh giá sản phẩm"
+                                placeholder="Số lượt đánh giá"
                                 {...register('reviewCount')}
                                 style={{ border: errors.reviewCount ? '1px solid red' : 'none' }}
                                 value={reviewCount}
                                 onChange={handleReviewCountChange}
-                            />
+                                /> */}
                         </div>
 
                         <div>
-                            <p className={cx('info')}>Hình ảnh sản phẩm</p>
+                            <p className={cx('info')}>Hình ảnh</p>
+                            <label
+                                htmlFor="imageProductUpload"
+                                className={cx(
+                                    'label-images-product',
+                                    !imageProducts.length && isSubmit1 ? 'error' : '',
+                                )}
+                            >
+                                <span>
+                                    Tải ảnh lên <LuImagePlus size={24} />
+                                </span>
+                            </label>
                             <input
+                                id="imageProductUpload"
                                 type="file"
                                 multiple
-                                // accept="image/*"
+                                accept="image/*"
                                 onChange={handleImageChange} // Bắt sự kiện khi chọn file
+                                style={{ display: 'none' }}
                             />
 
                             <div>
-                                {/* Hiển thị ảnh đã chọn */}
                                 <div>
                                     {imageProducts.length > 0 &&
                                         imageProducts.map((image, index) => (
@@ -468,62 +571,176 @@ function CreateProduct() {
                     <div className={cx('container')}>
                         <div>
                             <p className={cx('info')}>Thông tin cửa hàng</p>
-                            <input
+                            <div className="flex" style={{ marginBottom: '10px' }}>
+                                <div style={{ position: 'relative' }}>
+                                    <input
+                                        id="imageShop"
+                                        style={{ display: 'none' }}
+                                        type="file"
+                                        onChange={handleImageShopChange}
+                                    />
+                                    {imageShop ? (
+                                        <div className={cx('preview-image-shop')}>
+                                            <img
+                                                src={URL.createObjectURL(imageShop)}
+                                                alt={`Selected`}
+                                                style={{ width: '100px', height: '100px' }}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <label
+                                            htmlFor="imageShop"
+                                            className={cx('label-image-shop', !imageShop && isSubmit2 ? 'error' : '')}
+                                        >
+                                            <span style={{ color: 'black' }}>
+                                                <FaUpload size={27} />
+                                            </span>
+                                        </label>
+                                    )}
+
+                                    <label htmlFor="imageShop" className={cx('label-image-edit')}>
+                                        <span style={{ color: '#fc2b54' }}>
+                                            <MdModeEditOutline size={18} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div className={cx('div-name-shop')}>
+                                    <TextField
+                                        error={isSubmit2 && !nameShop}
+                                        id="nameShop"
+                                        label="Tên Shop"
+                                        variant="outlined"
+                                        value={nameShop}
+                                        onChange={handleNameShopChange}
+                                    />
+                                </div>
+                            </div>
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !storeRevenue}
+                                    id="storeRevenue"
+                                    label="Tổng doanh số của cửa hàng"
+                                    variant="outlined"
+                                    value={storeRevenue}
+                                    onChange={handleStoreRevenueChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Tổng doanh số của cửa hàng"
                                 {...register('storeRevenue')}
                                 style={{ border: errors.storeRevenue ? '1px solid red' : 'none' }}
                                 value={storeRevenue}
                                 onChange={handleStoreRevenueChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !productCount}
+                                    id="productCount"
+                                    label="Số sản phẩm"
+                                    variant="outlined"
+                                    value={productCount}
+                                    onChange={handleProductCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số sản phẩm"
                                 {...register('productCount')}
                                 style={{ border: errors.productCount ? '1px solid red' : 'none' }}
                                 value={productCount}
                                 onChange={handleProductCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !reviewCountStore}
+                                    id="reviewCountStore"
+                                    label="Số đánh giá dành cho cửa hàng"
+                                    variant="outlined"
+                                    value={reviewCountStore}
+                                    onChange={handleReviewCountStoreChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá dành cho cửa hàng"
                                 {...register('reviewCountStore')}
                                 style={{ border: errors.reviewCountStore ? '1px solid red' : 'none' }}
                                 value={reviewCountStore}
                                 onChange={handleReviewCountStoreChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !photoReviewCount}
+                                    id="photoReviewCount"
+                                    label="Số đánh giá chứa ảnh hoặc video"
+                                    variant="outlined"
+                                    value={photoReviewCount}
+                                    onChange={handlePhotoReviewCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá chứa ảnh hoặc video"
                                 {...register('photoReviewCount')}
                                 style={{ border: errors.photoReviewCount ? '1px solid red' : 'none' }}
                                 value={photoReviewCount}
                                 onChange={handlePhotoReviewCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !fiveStarCount}
+                                    id="fiveStarCount"
+                                    label="Số đánh giá 5 sao"
+                                    variant="outlined"
+                                    value={fiveStarCount}
+                                    onChange={handleFiveStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 5 sao"
                                 {...register('fiveStarCount')}
                                 style={{ border: errors.fiveStarCount ? '1px solid red' : 'none' }}
                                 value={fiveStarCount}
                                 onChange={handleFiveStarCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !fourStarCount}
+                                    id="fourStarCount"
+                                    label="Số đánh giá 4 sao"
+                                    variant="outlined"
+                                    value={fourStarCount}
+                                    onChange={handleFourStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 4 sao"
                                 {...register('fourStarCount')}
                                 style={{ border: errors.fourStarCount ? '1px solid red' : 'none' }}
                                 value={fourStarCount}
                                 onChange={handleFourStarCountChange}
-                            />
-                            <input
+                                /> */}
+                            <div style={{ marginBottom: '10px' }}>
+                                <TextField
+                                    error={isSubmit2 && !threeStarCount}
+                                    id="threeStarCount"
+                                    label="Số đánh giá 3 sao"
+                                    variant="outlined"
+                                    value={threeStarCount}
+                                    onChange={handleThreeStarCountChange}
+                                />
+                            </div>
+                            {/* <input
                                 type="text"
                                 placeholder="Số đánh giá 3 sao"
                                 {...register('threeStarCount')}
                                 style={{ border: errors.threeStarCount ? '1px solid red' : 'none' }}
                                 value={threeStarCount}
                                 onChange={handleThreeStarCountChange}
-                            />
+                                /> */}
                         </div>
                     </div>
                 ) : (
@@ -532,9 +749,11 @@ function CreateProduct() {
 
                 {isShowStep3 ? (
                     <>
-                        <div style={{ marginBottom: '20px' }}>
-                            <p className={cx('info')}>Tạo đánh giá</p>
-                            <div>
+                        <div className={cx('container-comment')}>
+                            <p className={cx('info')} style={{ marginLeft: '0' }}>
+                                Tạo đánh giá
+                            </p>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -548,31 +767,70 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange1} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload1"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange1}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px', width: '100%' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType1}
+                                        id="productType1"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
+                                        value={productType1}
+                                        onChange={handleProductTypeChange1}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType1')}
                                         style={{ border: errors.productType1 ? '1px solid red' : 'none' }}
                                         value={productType1}
                                         onChange={handleProductTypeChange1}
+                                        /> */}
+                                </div>
+                                <div className="flex" style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment1}
+                                        id="comment1"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment1}
+                                        onChange={handleCommentChange1}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment1')}
                                         style={{ border: errors.comment1 ? '1px solid red' : 'none' }}
                                         value={comment1}
                                         onChange={handleCommentChange1}
-                                    />
-                                </p>
+                                    /> */}
+                                    <label htmlFor="imageCommentUpload1" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment1.length > 0 &&
+                                            imagesComment1.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
 
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -586,30 +844,69 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange2} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload2"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange2}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px', width: '100%' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType2}
+                                        id="productType2"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
+                                        value={productType2}
+                                        onChange={handleProductTypeChange2}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType2')}
                                         style={{ border: errors.productType2 ? '1px solid red' : 'none' }}
                                         value={productType2}
                                         onChange={handleProductTypeChange2}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment2}
+                                        id="comment2"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment2}
+                                        onChange={handleCommentChange2}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment2')}
                                         style={{ border: errors.comment2 ? '1px solid red' : 'none' }}
                                         value={comment2}
                                         onChange={handleCommentChange2}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload2" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment2.length > 0 &&
+                                            imagesComment2.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -623,30 +920,69 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange3} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload3"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange3}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType3}
+                                        id="productType3"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
+                                        value={productType3}
+                                        onChange={handleProductTypeChange3}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType3')}
                                         style={{ border: errors.productType3 ? '1px solid red' : 'none' }}
                                         value={productType3}
                                         onChange={handleProductTypeChange3}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment3}
+                                        id="comment3"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment3}
+                                        onChange={handleCommentChange3}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment3')}
                                         style={{ border: errors.comment3 ? '1px solid red' : 'none' }}
                                         value={comment3}
                                         onChange={handleCommentChange3}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload3" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment3.length > 0 &&
+                                            imagesComment3.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -660,30 +996,71 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange4} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType4')}
-                                        style={{ border: errors.productType4 ? '1px solid red' : 'none' }}
+                                <input
+                                    id="imageCommentUpload4"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange4}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType4}
+                                        id="productType4"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
                                         value={productType4}
                                         onChange={handleProductTypeChange4}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
+                                        type="text"
+                                        placeholder="Loại mặt hàng"
+                                        {...register('productType4')}
+                                        style={{
+                                            border: errors.productType4 ? '1px solid red' : 'none',
+                                            }}
+                                            value={productType4}
+                                            onChange={handleProductTypeChange4}
+                                            /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment4}
+                                        id="comment4"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment4}
+                                        onChange={handleCommentChange4}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment4')}
                                         style={{ border: errors.comment4 ? '1px solid red' : 'none' }}
                                         value={comment4}
                                         onChange={handleCommentChange4}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload4" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment4.length > 0 &&
+                                            imagesComment4.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -697,30 +1074,69 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange5} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload5"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange5}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType5}
+                                        id="productType5"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
+                                        value={productType5}
+                                        onChange={handleProductTypeChange5}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType5')}
                                         style={{ border: errors.productType5 ? '1px solid red' : 'none' }}
                                         value={productType5}
                                         onChange={handleProductTypeChange5}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment5}
+                                        id="comment5"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment5}
+                                        onChange={handleCommentChange5}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment5')}
                                         style={{ border: errors.comment5 ? '1px solid red' : 'none' }}
                                         value={comment5}
                                         onChange={handleCommentChange5}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload5" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment5.length > 0 &&
+                                            imagesComment5.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
-                            <div>
+                            <div style={{ marginBottom: '20px' }}>
                                 <div className={cx('account-item', 'flex', 'items-center')}>
                                     <Image className={cx('avatar')} src={''} />
                                     <div className={cx('item-info')}>
@@ -734,28 +1150,67 @@ function CreateProduct() {
                                         </span>
                                     ))}
                                 </div>
-                                <input type="file" multiple onChange={handleImagesCommentChange6} />
-                                <p style={{ fontSize: '12px', marginTop: '5px', marginBottom: '5px' }}>
-                                    Mặt hàng:{' '}
-                                    <input
+                                <input
+                                    id="imageCommentUpload6"
+                                    style={{ display: 'none' }}
+                                    type="file"
+                                    multiple
+                                    onChange={handleImagesCommentChange6}
+                                />
+                                <div style={{ marginTop: '5px', marginBottom: '5px' }}>
+                                    <TextField
+                                        error={isSubmit3 && !productType6}
+                                        id="productType6"
+                                        label="Loại mặt hàng"
+                                        variant="outlined"
+                                        value={productType6}
+                                        onChange={handleProductTypeChange6}
+                                    />
+                                    {/* <input
                                         type="text"
                                         placeholder="Loại mặt hàng"
                                         {...register('productType6')}
                                         style={{ border: errors.productType6 ? '1px solid red' : 'none' }}
                                         value={productType6}
                                         onChange={handleProductTypeChange6}
+                                        /> */}
+                                </div>
+                                <div style={{ color: 'black', position: 'relative' }}>
+                                    <TextField
+                                        error={isSubmit3 && !comment6}
+                                        id="comment6"
+                                        label="Nhận xét của bạn"
+                                        variant="outlined"
+                                        value={comment6}
+                                        onChange={handleCommentChange6}
                                     />
-                                </p>
-                                <p style={{ color: 'black' }}>
-                                    <input
+                                    {/* <input
                                         type="text"
                                         placeholder="Nhận xét của bạn"
                                         {...register('comment6')}
                                         style={{ border: errors.comment6 ? '1px solid red' : 'none' }}
                                         value={comment6}
                                         onChange={handleCommentChange6}
-                                    />
-                                </p>
+                                        /> */}
+                                    <label htmlFor="imageCommentUpload6" className={cx('label-images-comment')}>
+                                        <span>
+                                            <LuImagePlus size={24} />
+                                        </span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <div>
+                                        {imagesComment6.length > 0 &&
+                                            imagesComment6.map((image, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={URL.createObjectURL(image)}
+                                                    alt={`Selected ${index}`}
+                                                    style={{ width: '100px', height: '100px', marginTop: '10px' }}
+                                                />
+                                            ))}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </>
@@ -765,17 +1220,17 @@ function CreateProduct() {
                 {isShowStep4 ? (
                     <>
                         <p className={cx('info')}>Thêm pixel</p>
-
-                        <div className={cx('scrollable-div')}>
-                            <GetProduct />
-                        </div>
                     </>
                 ) : (
                     ''
                 )}
                 {isShowStep1 ? (
-                    <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep1}>
+                    <div className={cx('fixed-bottom', 'footer')}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep1}
+                        >
                             Kiểm tra thông tin
                         </button>
                     </div>
@@ -783,52 +1238,67 @@ function CreateProduct() {
                     ''
                 )}
                 {isShowStep2 ? (
-                    <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep2}>
+                    <div className={cx('fixed-bottom', 'footer')}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep2}
+                        >
                             Kiểm tra thông tin
                         </button>
-                        <button className={cx('button-outline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handlePrevStep2}>
-                            Quay về trang thông tin
+                        <button
+                            className={cx('button-outline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handlePrevStep2}
+                        >
+                            Quay về trang Sản phẩm
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
                 {isShowStep3 ? (
-                    <div>
-                        <button className={cx('button-inline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handleNextStep3}>
+                    <div className={cx('fixed-bottom', 'footer')}>
+                        <button
+                            className={cx('button-inline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handleNextStep3}
+                        >
                             Kiểm tra thông tin
                         </button>
-                        <button className={cx('button-outline')} style={{ fontSize: '16px', padding: '10px' }} onClick={handlePrevStep3}>
-                            Quay về trang Bình luận
+                        <button
+                            className={cx('button-outline')}
+                            style={{ fontSize: '16px', padding: '10px' }}
+                            onClick={handlePrevStep3}
+                        >
+                            Quay về trang Cửa hàng
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
                 {isShowStep4 ? (
-                    <div>
+                    <div className={cx('fixed-bottom', 'footer')}>
                         <button
                             className={cx('button-inline')}
-                            type="submit"
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handleFormSubmit}
                         >
-                            Submit
+                            Đăng sản phẩm
                         </button>
                         <button
                             className={cx('button-outline')}
                             style={{ fontSize: '16px', padding: '10px' }}
                             onClick={handlePrevStep4}
                         >
-                            Quay về trang Xem trước
+                            Quay về trang Bình luận
                         </button>
                     </div>
                 ) : (
                     ''
                 )}
             </div>
-        </form>
+        </>
     );
 }
 

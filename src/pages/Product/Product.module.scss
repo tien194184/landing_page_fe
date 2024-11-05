@@ -3,7 +3,6 @@
     // box-shadow: 10px 10px 5px 5px #ccc;
 }
 .banner {
-
 }
 .padding-login {
     padding: 70px 100px;
@@ -145,28 +144,51 @@ section {
     }
     .text-shopping {
         font-weight: 600;
+        font-size: 12px;
+        margin: 7px 0;
     }
     .icon-shopping {
         font-size: 13px;
-        padding: 0 4px 2px 0;
+        padding: 0 4px 4px 0;
     }
     .price {
-        font-size: 19px;
-        font-weight: 700;
+        position: relative;
+        font-size: 18px;
+        font-weight: 600;
         color: #fe2c55;
+        align-items: end;
+        display: flex;
+        margin: 0 20px 0 2px;
+    }
+    .icon-price {
+        font-size: 16px;
+        font-weight: 600;
+        color: #fe2c55;
+        position: absolute;
+        bottom: 2.5px;
     }
     .price-old {
+        font-weight: 500;
+        align-items: end;
+        display: flex;
         font-size: 14px;
         text-decoration: line-through;
         color: #737171;
-        margin: 0 10px;
+        padding-bottom: 1px;
+        margin-right: 8px;
+        u {
+            padding-bottom: 2px;
+        }
     }
     .percent {
         font-size: 12px;
         font-weight: 600;
         color: #fe2c55;
         background: rgba(254, 44, 85, 0.06);
-        padding: 5px;
+        display: flex;
+        align-items: end;
+        height: 19px;
+        margin-top: 7px;
     }
     .name {
         font-size: 17px;
@@ -191,14 +213,14 @@ section {
     }
 }
 .voucher {
-    margin: 15px 18px;
+    margin: 13px 18px 15px 18px;
     .title {
     }
     .text-voucher {
     }
 }
 .policy {
-    margin: 15px 18px;
+    margin: 13px 18px 15px 18px;
     font-size: 13px;
     .tilte {
         margin-left: 5px;
@@ -287,8 +309,10 @@ section {
     background-color: whitesmoke;
 }
 .title {
+    display: flex;
     font-size: 14px;
     font-weight: 600;
+    align-items: center;
 }
 .primary {
     background-color: #fe2b54;
@@ -303,12 +327,13 @@ section {
     border-radius: 3px;
     padding: 10px;
     justify-content: space-between;
+    margin-top: 10px;
 }
 .bold {
     font-weight: 600;
 }
 .container-evaluate {
-    margin: 15px 18px;
+    margin: 13px 18px 15px 18px;
 }
 .div-number-star {
     border: 1px solid rgb(217, 217, 217);
@@ -398,17 +423,81 @@ section {
         height: 100%;
     }
 }
-.image-product{
+.image-product {
     width: 100%;
     height: auto;
 }
-.out-line{
+.out-line {
     color: #fc2b54 !important;
     border: 1px solid #fc2b54 !important;
     background-color: #fff;
     font-weight: 600;
 }
-.container-model-info-address{
-margin-top: 15pc;
-margin-right: 15pc;
+.container-model-info-address {
+    margin-top: 15px;
+    margin-right: 15px;
+}
+.container-load {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tiktok-loader {
+  width: 80px;
+  height: 40px;
+  position: relative;
+}
+
+.tiktok-loader::before,
+.tiktok-loader::after {
+  position: absolute;
+  content: "";
+  top: 6px;
+  background-color: #ff3e9e;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  mix-blend-mode: multiply;
+  animation: tiktok-loader-anim 1s linear infinite;
+}
+
+.tiktok-loader::after {
+  background-color: #4de8f4;
+  animation-delay: 0.5s;
+}
+
+@keyframes tiktok-loader-anim {
+
+  0%,
+  100% {
+    top: 6px;
+    left: 0px;
+    width: 28px;
+    height: 28px;
+    z-index: 0;
+  }
+
+  25% {
+    top: 0px;
+    height: 40px;
+    width: 40px;
+    z-index: 1;
+    left: 20px;
+  }
+
+  50% {
+    top: 6px;
+    width: 28px;
+    height: 28px;
+    left: 48px;
+  }
+
+  75% {
+    top: 8px;
+    width: 28px;
+    height: 28px;
+    left: 26px;
+  }
 }

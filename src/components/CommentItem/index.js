@@ -11,7 +11,7 @@ function CommentItem({ avatar, username, type, content, images = [] }) {
                 <div className={cx('account-item', 'flex', 'items-center')}>
                     <Image className={cx('avatar')} src={avatar} />
                     <div className={cx('item-info')}>
-                        <p className={cx('nickname')}>{username}</p>
+                        <span className={cx('nickname')}>{username}</span>
                     </div>
                 </div>
                 <div>

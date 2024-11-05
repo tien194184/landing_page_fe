@@ -1,0 +1,20 @@
+.container-order .MuiFormControl-root {
+    font-size: 11px !important;
+    width: 100% !important;
+    margin: 5px 0;
+}
+.container-order .MuiInputBase-root {
+    border-radius: 12px !important;
+    background-color: #fff !important;
+}
+.container-order .MuiInputBase-input {
+    padding: 4px 10px !important;
+    font-weight: 600;
+}
+.fs-12 {
+    font-size: 12px !important;
+}
+.container-order ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}

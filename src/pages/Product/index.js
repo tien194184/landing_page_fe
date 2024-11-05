@@ -7,8 +7,12 @@ import classNames from 'classnames/bind';
 import styles from './Product.module.scss';
 import { Container, Col, Row } from 'react-bootstrap';
 import SwiperComponent from '../../components/Swiper';
-import { useCountdown } from '../../utils/countdownHelper';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    formatNumberPriceInput,
+    formatNumberWithSuffix,
+    formatNumberWithSuffixB,
+    useCountdown,
+} from '../../utils/countdownHelper';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { RiSearchLine } from 'react-icons/ri';
@@ -28,7 +32,6 @@ import Image from '../../components/Image';
 import { LuStore } from 'react-icons/lu';
 import { TbMessageCircle } from 'react-icons/tb';
 import { IoTicket } from 'react-icons/io5';
-import config from '../../config';
 import * as authService from '../../services/authService';
 
 const cx = classNames.bind(styles);
@@ -68,7 +71,21 @@ function GetProduct() {
     }, [slug]);
     const { minutes, seconds } = useCountdown(58);
     console.log(product);
-
+    const price = product?.price ? formatNumberPriceInput(String(product?.price)) : null;
+    const oldPrice = product?.oldPrice ? formatNumberPriceInput(String(product?.oldPrice)) : null;
+    const storeRevenue = product?.storeRevenue ? formatNumberWithSuffix(String(product?.storeRevenue)) : null;
+    const reviewCount = product?.reviewCount ? formatNumberWithSuffix(String(product?.reviewCount)) : null;
+    const soldAmount = product?.soldAmount ? formatNumberWithSuffixB(String(product?.soldAmount)) : null;
+    const discount = product?.discount ? formatNumberWithSuffixB(String(product?.discount)) : null;
+    const photoReviewCount = product?.photoReviewCount
+        ? formatNumberWithSuffix(String(product?.photoReviewCount))
+        : null;
+    const reviewCountStore = product?.reviewCountStore
+        ? formatNumberWithSuffix(String(product?.reviewCountStore))
+        : null;
+    const fiveStarCount = product?.fiveStarCount ? formatNumberWithSuffix(String(product?.fiveStarCount)) : null;
+    const fourStarCount = product?.fourStarCount ? formatNumberWithSuffix(String(product?.fourStarCount)) : null;
+    const threeStarCount = product?.threeStarCount ? formatNumberWithSuffix(String(product?.threeStarCount)) : null;
     const productImages = [
         product?.image1,
         product?.image2,
@@ -214,21 +231,23 @@ function GetProduct() {
 
                     <div>
                         <div className={cx('container-prod')}>
-                            <div class="col-12 col-sm-12">
-                                <span style={{ fontSize: '21px', color: '#fe2c55' }}>
+                            <div class="flex">
+                                <div style={{ fontSize: '21px', color: '#fe2c55' }}>
                                     <IoTicket />
-                                </span>
-                                <span className={cx('price')}>
-                                    {product.price}
-                                    <u style={{ fontSize: '18px' }}>đ</u>
-                                </span>
-                                <span className={cx('price-old')}>
-                                    {product.oldPrice}
+                                </div>
+                                <div className={cx('price')}>
+                                    <span>
+                                        {price}
+                                        <u className={cx('icon-price')}>đ</u>
+                                    </span>
+                                </div>
+                                <div className={cx('price-old')}>
+                                    <span>{oldPrice}</span>
                                     <u style={{ fontSize: '13px', textDecorationColor: 'rgba(0, 0, 0, 0.5)' }}>đ</u>
-                                </span>
-                                <span className={cx('percent')}>
+                                </div>
+                                <div className={cx('percent')}>
                                     -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
-                                </span>
+                                </div>
                             </div>
                             <div className={cx('shopping', 'items-center', 'flex')}>
                                 <span className={cx('icon-shopping')}>
@@ -249,13 +268,13 @@ function GetProduct() {
                                     </span>
                                     <span>
                                         <span style={{ fontWeight: '600' }}> 4.9 /5</span>
-                                        <span className={cx('number-star')}> ({product.reviewCount})</span>
+                                        <span className={cx('number-star')}> ({reviewCount})</span>
                                     </span>
                                 </div>
                                 <span style={{ margin: '0 10px', width: '1px', backgroundColor: '#ccc' }}></span>
                                 <div>
                                     <span style={{ color: '#737171', fontSize: '13px' }}>Đã bán</span>
-                                    <span style={{ fontSize: '14px', fontWeight: '600' }}> {product.soldAmount}</span>
+                                    <span style={{ fontSize: '14px', fontWeight: '600' }}> {soldAmount}</span>
                                 </div>
                             </div>
                         </div>
@@ -291,9 +310,9 @@ function GetProduct() {
                     </div>
                     <div className={cx('line')}></div>
                     <div className={cx('voucher')}>
-                        <div className={cx('flex')}>
+                        <div className={cx('flex')} style={{ justifyContent: 'space-between' }}>
                             <div className={cx('title')}>Voucher & Khuyến mãi</div>
-                            <span style={{ fontSize: '20px' }}>
+                            <span className="flex" style={{ fontSize: '20px', alignItems: 'center' }}>
                                 <MdKeyboardArrowRight />
                             </span>
                         </div>
@@ -302,7 +321,7 @@ function GetProduct() {
                             <div>
                                 <div>
                                     <span className={cx('bold')} style={{ fontSize: '14px' }}>
-                                        Giảm {product.discount}
+                                        Giảm {discount}
                                         <u>đ</u>
                                     </span>
                                 </div>
@@ -326,14 +345,14 @@ function GetProduct() {
                     <div className={cx('policy')}>
                         <div>
                             <p className={cx('title')}>Hình thức thanh toán</p>
-                            <p style={{ margin: '5px 0 17px 0' }}>
+                            <p style={{ margin: '10px 0 17px 0' }}>
                                 <span
                                     style={{
                                         backgroundColor: 'rgb(58, 182, 125)',
                                         color: '#fff',
                                         padding: '3px',
                                         borderRadius: '2px',
-                                        fontSize: '11px',
+                                        fontSize: '9px',
                                         marginRight: '4px',
                                     }}
                                 >
@@ -342,25 +361,31 @@ function GetProduct() {
                                 <span style={{ color: 'rgb(115, 115, 115)' }}>Thanh toán bằng tiền mặt (COD)</span>
                             </p>
                             <div className={cx('line-small')} style={{ margin: '5px 0;' }}></div>
-                            <div className={cx('flex')} style={{ margin: '12px 0' }}>
+                            <div className={cx('flex')} style={{ margin: '12px 0', justifyContent: 'space-between' }}>
                                 <div className={cx('title')}>Vận chuyển</div>
 
-                                <div className={cx('flex')} style={{ fontSize: '13px' }}>
+                                <div className={cx('flex')} style={{ fontSize: '13px', justifyContent: 'center' }}>
                                     <span
+                                        className="flex"
                                         style={{
                                             fontSize: '13px',
                                             textDecoration: 'line-through',
                                             color: '#737171',
-                                            margin: '0 10px',
+                                            alignItems: 'center',
                                         }}
                                     >
                                         30.000
                                         <u style={{ fontSize: '13px', textDecorationColor: 'rgba(0, 0, 0, 0.5)' }}>đ</u>
                                     </span>
-                                    <span style={{ color: '#fe2c55' }}>Free</span>
-                                    <span style={{ fontSize: '20px' }}>
-                                        <MdKeyboardArrowRight />
+                                    <span
+                                        className="flex"
+                                        style={{ color: '#fe2c55', alignItems: 'center', margin: '0 10px 0 5px' }}
+                                    >
+                                        Free
                                     </span>
+                                    <p style={{ fontSize: '18px' }}>
+                                        <MdKeyboardArrowRight />
+                                    </p>
                                 </div>
                             </div>
                             <div style={{ color: 'rgb(115, 115, 115)', marginBottom: '10px' }}>
@@ -392,35 +417,80 @@ function GetProduct() {
                         <div className={cx('container-evaluate')}>
                             <div>
                                 <div>
-                                    <div className={cx('flex')} style={{ justifyContent: 'space-between' }}>
-                                        <div className={cx('title')}>
-                                            Đánh giá của khách hàng ({product.reviewCount})
-                                        </div>
+                                    <div
+                                        className={cx('flex')}
+                                        style={{ justifyContent: 'space-between', marginBottom: '7px' }}
+                                    >
+                                        <div className={cx('title')}>Đánh giá của khách hàng ({reviewCount})</div>
                                         <div>
-                                            <span style={{ color: '#fe2c55' }}>Xem thêm</span>
+                                            <span style={{ color: '#737373' }}>Xem thêm</span>
                                             <span style={{ fontSize: '20px' }}>
                                                 <MdKeyboardArrowRight />
                                             </span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <span>4.9</span>
-                                        <span>/5</span>
-                                        <span className={cx('star')}>
-                                            <FaStar />
-                                        </span>
-                                        <span className={cx('star')}>
-                                            <FaStar />
-                                        </span>
-                                        <span className={cx('star')}>
-                                            <FaStar />
-                                        </span>
-                                        <span className={cx('star')}>
-                                            <FaStar />
-                                        </span>
-                                        <span className={cx('star')}>
-                                            <FaStar />
-                                        </span>
+                                    <div className="flex">
+                                        <div>
+                                            <span style={{ fontSize: '17px', fontWeight: '600' }}>4.9</span>
+                                            <span style={{ fontSize: '12px', padding: '0 5px' }}>/5</span>
+                                        </div>
+                                        <div className="flex">
+                                            <span
+                                                className={cx('star')}
+                                                style={{
+                                                    fontSize: '15px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <FaStar />
+                                            </span>
+                                            <span
+                                                className={cx('star')}
+                                                style={{
+                                                    fontSize: '15px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <FaStar />
+                                            </span>
+                                            <span
+                                                className={cx('star')}
+                                                style={{
+                                                    fontSize: '15px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <FaStar />
+                                            </span>
+                                            <span
+                                                className={cx('star')}
+                                                style={{
+                                                    fontSize: '15px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <FaStar />
+                                            </span>
+                                            <span
+                                                className={cx('star')}
+                                                style={{
+                                                    fontSize: '15px',
+                                                    marginRight: '4px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                }}
+                                            >
+                                                <FaStar />
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -444,39 +514,77 @@ function GetProduct() {
 
                             <div className={cx('line-small')} style={{ marginBottom: '14px' }}></div>
                             <p className={cx('title')}>
-                                Đánh giá của khách hàng dành cho cửa hàng ({product.reviewCountStore})
+                                Đánh giá của khách hàng dành cho cửa hàng ({reviewCountStore})
                             </p>
 
                             <div style={{ margin: '10px 0' }}>
                                 <div className={cx('flex')} style={{ marginBottom: '7px' }}>
                                     <div className={cx('flex', 'content-center', 'div-number-star')}>
-                                        <span>
+                                        <span
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                fontSize: '11px',
+                                                marginRight: '3px',
+                                            }}
+                                        >
                                             <FaCamera />
                                         </span>
-                                        <span>Có chứa ảnh hoặc video ({product.photoReviewCount})</span>
+                                        <span style={{ display: 'flex', alignItems: 'center', fontSize: '11px' }}>
+                                            Có chứa ảnh hoặc video({photoReviewCount})
+                                        </span>
                                     </div>
                                     <div className={cx('flex', 'content-center', 'div-number-star')}>
-                                        <span>5</span>
-                                        <span className={cx('star')}>
+                                        <span style={{ display: 'flex', alignItems: 'center', fontSize: '11px' }}>
+                                            5
+                                        </span>
+                                        <span
+                                            className={cx('star')}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                fontSize: '10px',
+                                                margin: '0 2px',
+                                            }}
+                                        >
                                             <FaStar />
                                         </span>
-                                        <span> ({product.fiveStarCount})</span>
+                                        <span style={{ display: 'flex', alignItems: 'center', fontSize: '11px' }}>
+                                            {' '}
+                                            ({fiveStarCount})
+                                        </span>
                                     </div>
                                     <div className={cx('flex', 'content-center', 'div-number-star')}>
-                                        <span>4</span>
-                                        <span className={cx('star')}>
+                                        <span style={{ fontSize: '11px' }}>4</span>
+                                        <span
+                                            className={cx('star')}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                fontSize: '10px',
+                                                margin: '0 2px',
+                                            }}
+                                        >
                                             <FaStar />
                                         </span>
-                                        <span> ({product.fourStarCount})</span>
+                                        <span style={{ fontSize: '11px' }}> ({fourStarCount})</span>
                                     </div>
                                 </div>
                                 <div className={cx('flex')}>
                                     <div className={cx('flex', 'content-center', 'div-number-star')}>
-                                        <span>3</span>
-                                        <span className={cx('star')}>
+                                        <span style={{ fontSize: '11px' }}>3</span>
+                                        <span
+                                            className={cx('star')}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                fontSize: '10px',
+                                                margin: '0 2px',
+                                            }}
+                                        >
                                             <FaStar />
                                         </span>
-                                        <span>({product.threeStarCount})</span>
+                                        <span style={{ fontSize: '11px' }}>({threeStarCount})</span>
                                     </div>
                                 </div>
                             </div>
@@ -518,13 +626,23 @@ function GetProduct() {
                             </div>
                             <div className={cx('line-item')}></div>
                             <div className={cx('container-item')} style={{ padding: '0 10px' }}>
-                                <p className={cx('bold')}>{product.storeRevenue}</p>
+                                <p className={cx('bold')}>{storeRevenue}</p>
                                 <p className={cx('info-item')}>Tổng doanh số</p>
                             </div>
                             <div className={cx('line-item')}></div>
                             <div className={cx('container-item')} style={{ padding: '0 10px', minWidth: '114px' }}>
                                 <p className={cx('bold')}>
-                                    <span>99%</span> <span>Cao</span>
+                                    <span>99%</span>{' '}
+                                    <span
+                                        style={{
+                                            fontSize: '12px',
+                                            color: '#fe2c55',
+                                            background: 'rgba(254, 44, 85, 0.06)',
+                                            fontWeight: '500',
+                                        }}
+                                    >
+                                        Cao
+                                    </span>
                                 </p>
                                 <p className={cx('info-item')}>Tỉ lệ trả lời 24 giờ</p>
                             </div>
@@ -542,7 +660,7 @@ function GetProduct() {
                         <div className={cx('title')} style={{ fontSize: '15px', margin: '0 18px 7px 18px' }}>
                             Giới thiệu về sản phẩm này
                         </div>
-                        <div style={{ marginBottom: '15px' }}>
+                        <div style={{ margin: '0 18px 18px 18px' }}>
                             <div dangerouslySetInnerHTML={{ __html: product?.description }} />
                         </div>
                         <div>
@@ -591,7 +709,9 @@ function GetProduct() {
                 </>
             ) : (
                 <>
-                    <p>No Product</p>
+                    <div class={cx('container-load')}>
+                        <span class={cx('tiktok-loader')}></span>
+                    </div>
                 </>
             )}
         </>

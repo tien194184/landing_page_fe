@@ -7,6 +7,7 @@ export const post = async (data) => {
         const res = await httpRequest.post(`/user/product`, data, {
             headers: {
                 'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
             },
         });
         console.log(res);
@@ -73,6 +74,76 @@ export const login = async (data) => {
 export const getProduct = async (slug) => {
     try {
         const res = await httpRequest.get(`/product/${slug}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getListOrder = async () => {
+    try {
+        const res = await httpRequest.get(`/user/manage-order`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const getListProduct = async () => {
+    try {
+        const res = await httpRequest.get(`/user/manage-product`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const updateStatusOrder = async (id, data) => {
+    try {
+        const res = await httpRequest.put(`/user/order/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return res;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+export const editProduct = async (slug, data) => {
+    try {
+        const res = await httpRequest.post(`/user/product/edit/${slug}`, data, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(res);
+        return res;
+    } catch (error) {
+        console.log(error);
+        if (error.response && error.response.status === 400) {
+            return error.response.data;
+        }
+    }
+};
+
+export const handleDeleteImageProduct = async (slug, data) => {
+    try {
+        const res = await httpRequest.post(`/user/product/${slug}/delete-image`, data, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

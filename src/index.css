@@ -1,24 +1,24 @@
 body {
-  margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif; */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
-html, body{
-  font-size: 14px;
-
+html,
+body {
+    font-size: 14px;
+    /* letter-spacing: 0.3px */
 }
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 .active {
-  font-weight: bold;
+    font-weight: bold;
 }
 .App {
-  font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 section {
@@ -29,68 +29,68 @@ section {
 
 #projects,
 #contact {
-  /* color: #3b3b3c;
+    /* color: #3b3b3c;
   background: #eaf2fa; */
 }
 
 .nav {
-  align-items: center;
-  position: sticky;
-  top: -5px;
-  z-index: 2;
-  height: 80px;
-  min-height: 80px;
-  width: 100%;
-  background-color: #fff;
-  box-shadow: 0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%);
+    align-items: center;
+    position: sticky;
+    top: -5px;
+    z-index: 2;
+    height: 80px;
+    min-height: 80px;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0.125rem 0.25rem 0 rgb(0 0 0 / 11%);
 }
 
 .nav__container {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    position: relative;
 }
 .nav__container__actions {
-  font-size: 15px;
-  /* font-weight: 600; */
+    font-size: 15px;
+    /* font-weight: 600; */
 }
 
 .nav__container__actions .row {
-  justify-content: center;
+    justify-content: center;
     align-items: center;
 }
-.ck-content{
-height: 150px;
+.ck-content {
+    height: 150px;
 }
 
 .active {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .nav-ul {
-  list-style: none;
-      display: flex;
-      justify-content: space-between; /* Đảm bảo các phần đều cách đều nhau */
-      width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng */
-      padding: 0; /* Xóa khoảng cách mặc định nếu cần */
-  
+    list-style: none;
+    display: flex;
+    justify-content: space-between; /* Đảm bảo các phần đều cách đều nhau */
+    width: 100%; /* Đảm bảo nó chiếm toàn bộ chiều rộng */
+    padding: 0; /* Xóa khoảng cách mặc định nếu cần */
 }
 
-.nav-li{
-  cursor: pointer;
+.nav-li {
+    cursor: pointer;
 }
 
 .nav-li:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
-.swiper-slide-active{
-  margin-right: 0 !important;
+.swiper-slide-active {
+    margin-right: 0 !important;
 }
 .row {
-  --bs-gutter-x: 0;
+    --bs-gutter-x: 0;
 }
+

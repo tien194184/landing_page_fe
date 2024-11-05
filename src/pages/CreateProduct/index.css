@@ -1,0 +1,10 @@
+.container-create .MuiFormControl-root {
+    width: 100% !important;
+    border-radius: 2px !important;
+}
+.container-create .MuiInputBase-root {
+    background-color: #fff !important;
+}
+.container-create .MuiInputBase-input {
+    padding: 14px 15px !important;
+}
