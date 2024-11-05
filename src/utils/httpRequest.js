@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const httpRequest = axios.create({
-    baseURL: 'http://localhost:3001',
+    baseURL: process.env.REACT_APP_BASE_URL || "https://landing-page-be-gsuf.onrender.com",
 });
 
 export const get = async (path, options) => {
