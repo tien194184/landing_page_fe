@@ -193,12 +193,19 @@ function EditProduct() {
     };
 
     const [imageShop, setImageShop] = useState('');
+    const [imageShopDB, setImageShopDB] = useState('');
     const [imagesComment1, setImagesComment1] = useState([]);
     const [imagesComment2, setImagesComment2] = useState([]);
     const [imagesComment3, setImagesComment3] = useState([]);
     const [imagesComment4, setImagesComment4] = useState([]);
     const [imagesComment5, setImagesComment5] = useState([]);
     const [imagesComment6, setImagesComment6] = useState([]);
+    const [imagesCommentDB1, setImagesCommentDB1] = useState([]);
+    const [imagesCommentDB2, setImagesCommentDB2] = useState([]);
+    const [imagesCommentDB3, setImagesCommentDB3] = useState([]);
+    const [imagesCommentDB4, setImagesCommentDB4] = useState([]);
+    const [imagesCommentDB5, setImagesCommentDB5] = useState([]);
+    const [imagesCommentDB6, setImagesCommentDB6] = useState([]);
 
     const handleImageShopChange = (event) => {
         const file = event.target.files[0];
@@ -300,6 +307,7 @@ function EditProduct() {
         data.append('image9', image9);
         data.append('image10', image10);
         data.append('imageShop', imageShop);
+        data.append('shop', nameShop);
         data.append('productName', productName);
         data.append('price', price);
         data.append('oldPrice', oldPrice);
@@ -399,6 +407,43 @@ function EditProduct() {
                 setProductType6(comments[5].productType);
                 setComment6(comments[5].comment);
                 setDescription(product.description);
+                setImageShopDB(product.imageShop);
+                setImagesCommentDB1([
+                    comments[0].imageRating1,
+                    comments[0].imageRating2,
+                    comments[0].imageRating3,
+                    comments[0].imageRating4,
+                ]);
+                setImagesCommentDB2([
+                    comments[1].imageRating1,
+                    comments[1].imageRating2,
+                    comments[1].imageRating3,
+                    comments[1].imageRating4,
+                ]);
+                setImagesCommentDB3([
+                    comments[2].imageRating1,
+                    comments[2].imageRating2,
+                    comments[2].imageRating3,
+                    comments[2].imageRating4,
+                ]);
+                setImagesCommentDB4([
+                    comments[3].imageRating1,
+                    comments[3].imageRating2,
+                    comments[3].imageRating3,
+                    comments[3].imageRating4,
+                ]);
+                setImagesCommentDB5([
+                    comments[4].imageRating1,
+                    comments[4].imageRating2,
+                    comments[4].imageRating3,
+                    comments[4].imageRating4,
+                ]);
+                setImagesCommentDB6([
+                    comments[5].imageRating1,
+                    comments[5].imageRating2,
+                    comments[5].imageRating3,
+                    comments[5].imageRating4,
+                ]);
                 // setLoading(false);
             } catch (err) {
                 // setError(err.message);
@@ -476,18 +521,6 @@ function EditProduct() {
                                     onChange={handleProductNameChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                id="productName"
-                                placeholder="Tên sản phẩm"
-                                className={errors.productName ? 'input-error' : 'input-field'}
-                                style={{ border: errors.productName ? '1px solid red' : 'none' }}
-                                value={productName}
-                                onChange={handleProductNameChange}
-                                />
-                                <label htmlFor="productName" className="input-label">
-                                Tên sản phẩm
-                                </label> */}
 
                             <div className={cx('flex', 'div-phone')} style={{ marginBottom: '10px' }}>
                                 <div style={{ paddingRight: '10px', backgroundColor: 'rgb(245, 245, 245)' }}>
@@ -510,22 +543,6 @@ function EditProduct() {
                                         onChange={handleOldPriceChange}
                                     />
                                 </div>
-                                {/* <input
-                                    type="number"
-                                    placeholder="Giá"
-                                    {...register('price')}
-                                    style={{ border: errors.price ? '1px solid red' : 'none' }}
-                                    value={price}
-                                    onChange={handlePriceChange}
-                                    /> */}
-                                {/* <input
-                                    type="number"
-                                    placeholder="Giá cũ"
-                                    {...register('oldPrice')}
-                                    style={{ border: errors.oldPrice ? '1px solid red' : 'none' }}
-                                    value={oldPrice}
-                                    onChange={handleOldPriceChange}
-                                    /> */}
                             </div>
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
@@ -555,14 +572,7 @@ function EditProduct() {
                                     onChange={handleSoldAmountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="number"
-                                placeholder="Số lượng đã bán"
-                                {...register('soldAmount')}
-                                style={{ border: errors.soldAmount ? '1px solid red' : 'none' }}
-                                value={soldAmount}
-                                onChange={handleSoldAmountChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit1 && !reviewCount}
@@ -573,14 +583,6 @@ function EditProduct() {
                                     onChange={handleReviewCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="number"
-                                placeholder="Số lượt đánh giá"
-                                {...register('reviewCount')}
-                                style={{ border: errors.reviewCount ? '1px solid red' : 'none' }}
-                                value={reviewCount}
-                                onChange={handleReviewCountChange}
-                                /> */}
                         </div>
 
                         <div>
@@ -1166,7 +1168,16 @@ function EditProduct() {
                                         type="file"
                                         onChange={handleImageShopChange}
                                     />
-                                    {imageShop ? (
+                                    {imageShopDB && (
+                                        <div className={cx('preview-image-shop')}>
+                                            <img
+                                                src={imageShopDB}
+                                                alt={`Selected`}
+                                                style={{ width: '100px', height: '100px' }}
+                                            />
+                                        </div>
+                                    )}
+                                    {imageShop && (
                                         <div className={cx('preview-image-shop')}>
                                             <img
                                                 src={URL.createObjectURL(imageShop)}
@@ -1174,7 +1185,8 @@ function EditProduct() {
                                                 style={{ width: '100px', height: '100px' }}
                                             />
                                         </div>
-                                    ) : (
+                                    )}
+                                    {!imageShopDB && !imageShop && (
                                         <label
                                             htmlFor="imageShop"
                                             className={cx('label-image-shop', !imageShop && isSubmit2 ? 'error' : '')}
@@ -1194,11 +1206,13 @@ function EditProduct() {
                                         </label>
                                     )}
 
-                                    <label htmlFor="imageShop" className={cx('label-image-edit')}>
-                                        <span style={{ color: '#fc2b54' }}>
-                                            <MdModeEditOutline size={18} />
-                                        </span>
-                                    </label>
+                                    {(imageShop || imageShopDB) && (
+                                        <label htmlFor="imageShop" className={cx('label-image-edit')}>
+                                            <span style={{ color: '#fc2b54' }}>
+                                                <MdModeEditOutline size={18} />
+                                            </span>
+                                        </label>
+                                    )}
                                 </div>
                                 <div className={cx('div-name-shop')}>
                                     <TextField
@@ -1221,14 +1235,7 @@ function EditProduct() {
                                     onChange={handleStoreRevenueChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Tổng doanh số của cửa hàng"
-                                {...register('storeRevenue')}
-                                style={{ border: errors.storeRevenue ? '1px solid red' : 'none' }}
-                                value={storeRevenue}
-                                onChange={handleStoreRevenueChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !productCount}
@@ -1239,14 +1246,7 @@ function EditProduct() {
                                     onChange={handleProductCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số sản phẩm"
-                                {...register('productCount')}
-                                style={{ border: errors.productCount ? '1px solid red' : 'none' }}
-                                value={productCount}
-                                onChange={handleProductCountChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !reviewCountStore}
@@ -1257,14 +1257,7 @@ function EditProduct() {
                                     onChange={handleReviewCountStoreChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số đánh giá dành cho cửa hàng"
-                                {...register('reviewCountStore')}
-                                style={{ border: errors.reviewCountStore ? '1px solid red' : 'none' }}
-                                value={reviewCountStore}
-                                onChange={handleReviewCountStoreChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !photoReviewCount}
@@ -1275,14 +1268,7 @@ function EditProduct() {
                                     onChange={handlePhotoReviewCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số đánh giá chứa ảnh hoặc video"
-                                {...register('photoReviewCount')}
-                                style={{ border: errors.photoReviewCount ? '1px solid red' : 'none' }}
-                                value={photoReviewCount}
-                                onChange={handlePhotoReviewCountChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !fiveStarCount}
@@ -1293,14 +1279,7 @@ function EditProduct() {
                                     onChange={handleFiveStarCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số đánh giá 5 sao"
-                                {...register('fiveStarCount')}
-                                style={{ border: errors.fiveStarCount ? '1px solid red' : 'none' }}
-                                value={fiveStarCount}
-                                onChange={handleFiveStarCountChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !fourStarCount}
@@ -1311,14 +1290,7 @@ function EditProduct() {
                                     onChange={handleFourStarCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số đánh giá 4 sao"
-                                {...register('fourStarCount')}
-                                style={{ border: errors.fourStarCount ? '1px solid red' : 'none' }}
-                                value={fourStarCount}
-                                onChange={handleFourStarCountChange}
-                                /> */}
+
                             <div style={{ marginBottom: '10px' }}>
                                 <TextField
                                     error={isSubmit2 && !threeStarCount}
@@ -1329,14 +1301,6 @@ function EditProduct() {
                                     onChange={handleThreeStarCountChange}
                                 />
                             </div>
-                            {/* <input
-                                type="text"
-                                placeholder="Số đánh giá 3 sao"
-                                {...register('threeStarCount')}
-                                style={{ border: errors.threeStarCount ? '1px solid red' : 'none' }}
-                                value={threeStarCount}
-                                onChange={handleThreeStarCountChange}
-                                /> */}
                         </div>
                     </div>
                 ) : (
@@ -1379,14 +1343,6 @@ function EditProduct() {
                                         value={productType1}
                                         onChange={handleProductTypeChange1}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType1')}
-                                        style={{ border: errors.productType1 ? '1px solid red' : 'none' }}
-                                        value={productType1}
-                                        onChange={handleProductTypeChange1}
-                                        /> */}
                                 </div>
                                 <div className="flex" style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1397,14 +1353,7 @@ function EditProduct() {
                                         value={comment1}
                                         onChange={handleCommentChange1}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment1')}
-                                        style={{ border: errors.comment1 ? '1px solid red' : 'none' }}
-                                        value={comment1}
-                                        onChange={handleCommentChange1}
-                                    /> */}
+
                                     <label htmlFor="imageCommentUpload1" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1422,6 +1371,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB1.length > 0 &&
+                                            !imagesComment1.length &&
+                                            imagesCommentDB1.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -1456,14 +1424,6 @@ function EditProduct() {
                                         value={productType2}
                                         onChange={handleProductTypeChange2}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType2')}
-                                        style={{ border: errors.productType2 ? '1px solid red' : 'none' }}
-                                        value={productType2}
-                                        onChange={handleProductTypeChange2}
-                                        /> */}
                                 </div>
                                 <div style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1474,14 +1434,7 @@ function EditProduct() {
                                         value={comment2}
                                         onChange={handleCommentChange2}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment2')}
-                                        style={{ border: errors.comment2 ? '1px solid red' : 'none' }}
-                                        value={comment2}
-                                        onChange={handleCommentChange2}
-                                        /> */}
+
                                     <label htmlFor="imageCommentUpload2" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1499,6 +1452,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB2.length > 0 &&
+                                            !imagesComment2.length &&
+                                            imagesCommentDB2.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -1532,14 +1504,6 @@ function EditProduct() {
                                         value={productType3}
                                         onChange={handleProductTypeChange3}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType3')}
-                                        style={{ border: errors.productType3 ? '1px solid red' : 'none' }}
-                                        value={productType3}
-                                        onChange={handleProductTypeChange3}
-                                        /> */}
                                 </div>
                                 <div style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1550,14 +1514,7 @@ function EditProduct() {
                                         value={comment3}
                                         onChange={handleCommentChange3}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment3')}
-                                        style={{ border: errors.comment3 ? '1px solid red' : 'none' }}
-                                        value={comment3}
-                                        onChange={handleCommentChange3}
-                                        /> */}
+
                                     <label htmlFor="imageCommentUpload3" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1575,6 +1532,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB3.length > 0 &&
+                                            !imagesComment3.length &&
+                                            imagesCommentDB3.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -1608,16 +1584,6 @@ function EditProduct() {
                                         value={productType4}
                                         onChange={handleProductTypeChange4}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType4')}
-                                        style={{
-                                            border: errors.productType4 ? '1px solid red' : 'none',
-                                            }}
-                                            value={productType4}
-                                            onChange={handleProductTypeChange4}
-                                            /> */}
                                 </div>
                                 <div style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1628,14 +1594,7 @@ function EditProduct() {
                                         value={comment4}
                                         onChange={handleCommentChange4}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment4')}
-                                        style={{ border: errors.comment4 ? '1px solid red' : 'none' }}
-                                        value={comment4}
-                                        onChange={handleCommentChange4}
-                                        /> */}
+
                                     <label htmlFor="imageCommentUpload4" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1653,6 +1612,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB4.length > 0 &&
+                                            !imagesComment4.length &&
+                                            imagesCommentDB4.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -1686,14 +1664,6 @@ function EditProduct() {
                                         value={productType5}
                                         onChange={handleProductTypeChange5}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType5')}
-                                        style={{ border: errors.productType5 ? '1px solid red' : 'none' }}
-                                        value={productType5}
-                                        onChange={handleProductTypeChange5}
-                                        /> */}
                                 </div>
                                 <div style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1704,14 +1674,7 @@ function EditProduct() {
                                         value={comment5}
                                         onChange={handleCommentChange5}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment5')}
-                                        style={{ border: errors.comment5 ? '1px solid red' : 'none' }}
-                                        value={comment5}
-                                        onChange={handleCommentChange5}
-                                        /> */}
+
                                     <label htmlFor="imageCommentUpload5" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1729,6 +1692,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB5.length > 0 &&
+                                            !imagesComment5.length &&
+                                            imagesCommentDB5.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
@@ -1762,14 +1744,6 @@ function EditProduct() {
                                         value={productType6}
                                         onChange={handleProductTypeChange6}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Loại mặt hàng"
-                                        {...register('productType6')}
-                                        style={{ border: errors.productType6 ? '1px solid red' : 'none' }}
-                                        value={productType6}
-                                        onChange={handleProductTypeChange6}
-                                        /> */}
                                 </div>
                                 <div style={{ color: 'black', position: 'relative' }}>
                                     <TextField
@@ -1780,14 +1754,7 @@ function EditProduct() {
                                         value={comment6}
                                         onChange={handleCommentChange6}
                                     />
-                                    {/* <input
-                                        type="text"
-                                        placeholder="Nhận xét của bạn"
-                                        {...register('comment6')}
-                                        style={{ border: errors.comment6 ? '1px solid red' : 'none' }}
-                                        value={comment6}
-                                        onChange={handleCommentChange6}
-                                        /> */}
+
                                     <label htmlFor="imageCommentUpload6" className={cx('label-images-comment')}>
                                         <span>
                                             <LuImagePlus size={24} />
@@ -1805,6 +1772,25 @@ function EditProduct() {
                                                     style={{ width: '100px', height: '100px', marginTop: '10px' }}
                                                 />
                                             ))}
+                                    </div>
+                                    <div>
+                                        {imagesCommentDB6.length > 0 &&
+                                            !imagesComment6.length &&
+                                            imagesCommentDB6.map(
+                                                (image, index) =>
+                                                    image && (
+                                                        <img
+                                                            key={index}
+                                                            src={image}
+                                                            alt={`Selected ${index}`}
+                                                            style={{
+                                                                width: '100px',
+                                                                height: '100px',
+                                                                marginTop: '10px',
+                                                            }}
+                                                        />
+                                                    ),
+                                            )}
                                     </div>
                                 </div>
                             </div>
