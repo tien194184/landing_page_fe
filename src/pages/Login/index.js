@@ -32,19 +32,17 @@ const Login = () => {
                 console.log(result);
                 console.log(result);
                 const { token, role, expiration } = result;
-                console.log(token, role, expiration)
+                console.log(token, role, expiration);
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
                 localStorage.setItem('expiration', expiration);
                 // if (result.success === true) {
-                //     window.location.reload();
+                    navigate('/user/manage-product');
                 // } else {
                 // }
             } catch (error) {
                 console.error(error);
             }
-            // Thực hiện xử lý đăng nhập tại đây, ví dụ gọi API
-            // navigate('/dashboard');
         }
     };
 
