@@ -462,9 +462,9 @@ function EditProduct() {
                     comments[5].imageRating3,
                     comments[5].imageRating4,
                 ]);
-                setOption1(product.option1)
-                setOption2(product.option2)
-                setOption3(product.option3)
+                setOption1(product.option1);
+                if (product.option2) setOption2(product.option2);
+                if (product.option3) setOption3(product.option3);
             } catch (err) {
                 // setError(err.message);
                 // setLoading(false);
