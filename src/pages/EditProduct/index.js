@@ -1144,10 +1144,10 @@ function EditProduct() {
                                 </div>
                             </div>
 
-                            <div style={{ height: '215px', marginBottom: '70px' }}>
+                            <div style={{ height: '215px', marginTop: '20px' }}>
                                 <p className={cx('info')}>Mô tả sản phẩm</p>
 
-                                <div className="flex" style={{ height: '100px' }}>
+                                <div className="flex">
                                     <CKEditor
                                         editor={ClassicEditor}
                                         data={description}

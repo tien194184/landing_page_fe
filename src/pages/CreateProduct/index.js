@@ -190,7 +190,16 @@ function CreateProduct() {
     };
 
     const handleNextStep1 = async () => {
-        if (productName && price && oldPrice && discount && soldAmount && reviewCount && imageProducts.length && option1) {
+        if (
+            productName &&
+            price &&
+            oldPrice &&
+            discount &&
+            soldAmount &&
+            reviewCount &&
+            imageProducts.length &&
+            option1
+        ) {
             setIsShowStep1(false);
             setIsShowStep2(true);
         }
@@ -562,7 +571,7 @@ function CreateProduct() {
                                 </div>
                             </div>
 
-                            <div style={{ height: '215px', marginBottom: '70px' }}>
+                            <div style={{ height: '215px', marginTop: '20px' }}>
                                 <p className={cx('info')}>Mô tả sản phẩm</p>
 
                                 <div className="flex" style={{ height: '100px' }}>
