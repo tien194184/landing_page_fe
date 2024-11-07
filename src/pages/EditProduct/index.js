@@ -378,7 +378,6 @@ function EditProduct() {
         setLoading(true);
         try {
             const result = await authService.editProduct(slug, data);
-            console.log(result);
             if (result?.success) {
                 setLoading(false);
                 setShowPopup(true);

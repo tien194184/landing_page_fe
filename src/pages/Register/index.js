@@ -39,15 +39,14 @@ const CreateAccount = () => {
             const data= { name, email, password };
             try {
                 const result = await authService.signup(data);
-                console.log(result);
-                // if (result.success === true) {
-                //     window.location.reload();
-                // } else {
-                // }
+                if (result.success === true) {
+                    // window.location.reload();
+                } else {
+                }
             } catch (error) {
                 console.error(error);
             }
-            // navigate('/dashboard');
+            navigate('/login');
         }
     };
 

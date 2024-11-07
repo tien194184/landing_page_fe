@@ -35,7 +35,6 @@ function App() {
         );
     };
     const { isAuthenticated, role } = checkAuth();
-    console.log(isAuthenticated, role);
 
     return (
         <BrowserRouter>

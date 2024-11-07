@@ -141,7 +141,6 @@ function PaymentSmall() {
             sellerId: product.userId,
             option,
         };
-        console.log(option);
         try {
             setLoading(true);
             const result = await authService.postOrder(product.slug, data);

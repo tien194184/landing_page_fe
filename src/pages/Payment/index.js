@@ -178,10 +178,8 @@ function Payment() {
             tiktokShopDiscount,
             sellerId: product.userId,
         };
-        console.log(data);
         try {
             const result = await authService.postOrder(product.slug, data);
-            console.log(result);
             if (result.success === true) {
                 setSuccess(true);
             } else {

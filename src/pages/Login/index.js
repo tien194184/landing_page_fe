@@ -29,9 +29,7 @@ const Login = () => {
             const data = { email, password };
             try {
                 const result = await authService.login(data);
-                console.log(result);
                 const { token, role, expiration } = result;
-                console.log(token, role, expiration);
                 localStorage.setItem('token', token);
                 localStorage.setItem('role', role);
                 localStorage.setItem('expiration', expiration);

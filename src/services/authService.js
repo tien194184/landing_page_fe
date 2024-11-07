@@ -10,10 +10,8 @@ export const post = async (data) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(res);
         return res;
     } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 400) {
             return error.response.data;
         }
@@ -23,10 +21,8 @@ export const post = async (data) => {
 export const postOrder = async (slug, data) => {
     try {
         const res = await httpRequest.post(`/order/${slug}`, data);
-        console.log(res);
         return res;
     } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 400) {
             return error.response.data;
         }
@@ -42,7 +38,6 @@ export const signup = async (data) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 500) {
             return error.response.data;
         }
@@ -61,7 +56,6 @@ export const login = async (data) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 500) {
             return error.response.data;
         }
@@ -80,7 +74,6 @@ export const getProduct = async (slug) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
     }
 };
 
@@ -93,7 +86,6 @@ export const getListOrder = async () => {
         });
         return res;
     } catch (error) {
-        console.log(error);
     }
 };
 
@@ -106,7 +98,6 @@ export const getListProduct = async () => {
         });
         return res;
     } catch (error) {
-        console.log(error);
     }
 };
 
@@ -119,7 +110,6 @@ export const updateStatusOrder = async (id, data) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
     }
 };
 
@@ -131,10 +121,8 @@ export const editProduct = async (slug, data) => {
                 Authorization: `Bearer ${token}`,
             },
         });
-        console.log(res);
         return res;
     } catch (error) {
-        console.log(error);
         if (error.response && error.response.status === 400) {
             return error.response.data;
         }
@@ -150,6 +138,5 @@ export const handleDeleteImageProduct = async (slug, data) => {
         });
         return res;
     } catch (error) {
-        console.log(error);
     }
 };

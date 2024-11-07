@@ -70,7 +70,6 @@ function GetProduct() {
         fetchProduct();
     }, [slug]);
     const { minutes, seconds } = useCountdown(58);
-    console.log(product);
     const price = product?.price ? formatNumberPriceInput(String(product?.price)) : null;
     const oldPrice = product?.oldPrice ? formatNumberPriceInput(String(product?.oldPrice)) : null;
     const storeRevenue = product?.storeRevenue ? formatNumberWithSuffix(String(product?.storeRevenue)) : null;
