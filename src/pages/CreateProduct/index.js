@@ -277,9 +277,9 @@ function CreateProduct() {
         data.append('fourStarCount', fourStarCount);
         data.append('threeStarCount', threeStarCount);
         data.append('description', description);
-        data.append('option1', option1);
-        data.append('option2', option2);
-        data.append('option3', option3);
+        data.append('option1', option1 || '');
+        data.append('option2', option2 || '');
+        data.append('option3', option3 || '');
 
         imagesComment1.forEach((image) => {
             data.append('imagesComment1[]', image); // Append each image to the FormData as an array
