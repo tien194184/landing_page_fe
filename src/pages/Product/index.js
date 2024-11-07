@@ -595,12 +595,12 @@ function GetProduct() {
                             <div className={cx('flex')}>
                                 <Image
                                     className={cx('avatar-shop')}
-                                    src="https://res.cloudinary.com/dlkm9tiem/image/upload/v1715619497/yj5ya4u0yeh92a3gnzen.png"
+                                    src={product.imageShop}
                                     alt=""
                                 />
                                 <div style={{ marginLeft: '15px' }} className={cx('items-center', 'flex')}>
                                     <div>
-                                        <p className={cx('name')}>Shop gia dụng</p>
+                                        <p className={cx('name')}>{product.shop}</p>
                                         <p>
                                             <span className={cx('star')} style={{ color: '#4ea97e' }}>
                                                 <FaStar />
