@@ -47,13 +47,13 @@
         width: auto;
     }
     .address {
-        color: #b507be;
-        background-color: #f8f2ff;
+        color: #12a14e;
+        background-color: #edfff5;
         margin-top: 5px;
     }
     .phone {
-        color: rgb(207, 14, 14);
-        background-color: rgb(255, 244, 244);
+        color: rgb(9, 86, 142);
+        background-color: rgb(239, 248, 255);
         font-size: 13px;
     }
     .name {
@@ -68,4 +68,21 @@
 .header-active {
     color: #fc2b54;
     font-weight: 600;
+}
+
+.status1 {
+    background-color: #ea2c00;
+    color: #fff;
+}
+.status2 {
+    background-color: #ea733b;
+    color: #fff;
+}
+.status3 {
+    background-color: #4cbd9b;
+    color: #fff;
+}
+.status4 {
+    background-color: #4488c5;
+    color: #fff;
 }

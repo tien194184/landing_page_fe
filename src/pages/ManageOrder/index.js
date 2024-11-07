@@ -60,7 +60,6 @@ function ManageOrder() {
 
     const fetchOrder = async () => {
         try {
-            // Make the API call to fetch the product
             const response = await authService.getListOrder();
 
             setOrders(response.data.orders);
@@ -87,6 +86,19 @@ function ManageOrder() {
         } catch (err) {
             setError(err.message);
             setLoading(false);
+        }
+    };
+    const getColorForStatus = (status) => {
+        switch (status) {
+            case 1:
+                return '#ea2c00 !important'; // Yellow
+            case 2:
+                return '#dc9925 !important'; // Blue
+            case 3:
+                return '#4cbd9b !important'; // Green
+            case 4:
+                return '#4488c5 !important'; // Red
+            default:
         }
     };
     return (
@@ -144,7 +156,22 @@ function ManageOrder() {
                                 <div className={cx('item-order')} key={index}>
                                     <div className="flex">
                                         <div style={{ marginRight: '10px' }}>
-                                            <img className={cx('image-product')} src={order.productId.image1} alt="" />
+                                            <img
+                                                className={cx('image-product')}
+                                                src={
+                                                    order?.productId?.image1 ||
+                                                    order?.productId?.image2 ||
+                                                    order?.productId?.image3 ||
+                                                    order?.productId?.image4 ||
+                                                    order?.productId?.image5 ||
+                                                    order?.productId?.image6 ||
+                                                    order?.productId?.image7 ||
+                                                    order?.productId?.image8 ||
+                                                    order?.productId?.image9 ||
+                                                    order?.productId?.image10
+                                                }
+                                                alt=""
+                                            />
                                         </div>
                                         <div
                                             className="flex"
@@ -156,64 +183,58 @@ function ManageOrder() {
                                         >
                                             <div>
                                                 <p className={cx('name-prod')}>
-                                                    {order.productId.productName}{' '}
-                                                    <span className={cx('quantity')}>({order.quantity})</span>
+                                                    {order?.productId?.productName}{' '}
+                                                    {/* <span className={cx('quantity')}>({order?.quantity})</span> */}
                                                 </p>
-                                                <p className={cx('time-order')}>{formatTime(order.createdAt)}</p>
+                                                <p className={cx('time-order')}>{formatTime(order?.createdAt)}</p>
                                             </div>
                                             <div className="flex">
                                                 <div>
-                                                    <p
-                                                        style={{
-                                                            justifyContent: 'right',
-                                                            display: 'flex',
-                                                            fontSize: '12px',
-                                                        }}
-                                                    >
-                                                        Giảm giá:
-                                                    </p>
-                                                    <p style={{ justifyContent: 'right', display: 'flex' }}>
-                                                        Tổng tiền:
-                                                    </p>
-                                                </div>
-                                                <div>
-                                                    <div>
-                                                        <p style={{ color: '#fe2c55', fontSize: '12px' }}>
-                                                            -<u>đ</u>
-                                                            {order.tiktokShopDiscount}
-                                                        </p>
-                                                        <p className={cx('total-monney')}>
-                                                            <u>đ</u>
-                                                            {order.tiktokShopDiscount}
-                                                        </p>
-                                                    </div>
+                                                    <p>{order?.option}</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex">
-                                        <FormControl sx={{ m: 1, maxWidth: 120 }}>
+                                    <div className="flex" style={{ marginTop: '10px' }}>
+                                        <FormControl sx={{ m: 1, maxWidth: 125 }}>
                                             <Select
-                                                value={order.status}
-                                                onChange={(e) => handleChangeStatusOrder(order._id, e.target.value)}
+                                                value={order?.status}
+                                                onChange={(e) => handleChangeStatusOrder(order?._id, e.target.value)}
                                                 displayEmpty
                                                 inputProps={{ 'aria-label': 'Without label' }}
-                                                style={{ fontSize: '13px' }}
+                                                sx={{
+                                                    fontSize: '13px',
+                                                    backgroundColor: getColorForStatus(order?.status),
+                                                    color: '#fff',
+                                                    border: 'none',
+                                                }}
                                             >
                                                 {/* <MenuItem value="" style={{ fontSize: '13px' }}>
                                                     <em>{getStatusText(order.status)}</em>
-                                                </MenuItem> */}
-                                                <MenuItem value={1} style={{ fontSize: '13px' }}>
+                                                    </MenuItem> */}
+                                                <MenuItem
+                                                    value={1}
+                                                    style={{ fontSize: '13px', color: '#ea2c00', fontWeight: '600' }}
+                                                >
                                                     Chờ xác nhận
                                                 </MenuItem>
-                                                <MenuItem value={2} style={{ fontSize: '13px' }}>
+                                                <MenuItem
+                                                    value={2}
+                                                    style={{ fontSize: '13px', color: '#dc9925', fontWeight: '600' }}
+                                                >
                                                     Giao hàng
                                                 </MenuItem>
-                                                <MenuItem value={3} style={{ fontSize: '13px' }}>
+                                                <MenuItem
+                                                    value={3}
+                                                    style={{ fontSize: '13px', color: '#4cbd9b', fontWeight: '600' }}
+                                                >
                                                     Thành công
                                                 </MenuItem>
-                                                <MenuItem value={4} style={{ fontSize: '13px' }}>
+                                                <MenuItem
+                                                    value={4}
+                                                    style={{ fontSize: '13px', color: '#4488c5', fontWeight: '600' }}
+                                                >
                                                     Đã hủy
                                                 </MenuItem>
                                             </Select>
@@ -229,7 +250,7 @@ function ManageOrder() {
                                             >
                                                 <BsPersonSquare />
                                             </span>
-                                            <span style={{ marginTop: '1px' }}>{order.name}</span>
+                                            <span style={{ marginTop: '1px' }}>{order?.name}</span>
                                         </div>
                                         <div className={cx('div-info', 'phone')}>
                                             <span
@@ -242,7 +263,7 @@ function ManageOrder() {
                                             >
                                                 <FaPhoneAlt />
                                             </span>
-                                            <span>{order.phone}</span>
+                                            <span>{order?.phone}</span>
                                         </div>
                                     </div>
                                     <div className="flex">
@@ -250,7 +271,7 @@ function ManageOrder() {
                                             <p className="flex" style={{ fontSize: '13px', alignItems: 'center' }}>
                                                 <IoLocationSharp />
                                             </p>
-                                            <p style={{ marginTop: '1px' }}>{order.address}</p>
+                                            <p style={{ marginTop: '1px' }}>{order?.address}</p>
                                         </div>
                                     </div>
                                 </div>

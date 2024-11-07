@@ -5,7 +5,7 @@
 }
 .container-order .MuiInputBase-root {
     border-radius: 12px !important;
-    background-color: #fff !important;
+    /* background-color: #fff !important; */
 }
 .container-order .MuiInputBase-input {
     padding: 4px 10px !important;
@@ -17,4 +17,7 @@
 .container-order ul {
     margin: 0 !important;
     padding: 0 !important;
+}
+.css-1toxriw-MuiList-root-MuiMenu-list {
+    margin: 0 !important;
 }

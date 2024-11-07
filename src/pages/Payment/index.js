@@ -466,7 +466,7 @@ function Payment() {
                                                         </div>
                                                         {isModalAddressOpen && (
                                                             <Modal
-                                                                isOpen={isModalOpen}
+                                                                isOpen={isModalAddressOpen}
                                                                 onRequestClose={closeModalAddress}
                                                                 className="slide-modal-address"
                                                                 overlayClassName="slide-overlay-address"

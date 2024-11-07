@@ -32,6 +32,9 @@ function CreateProduct() {
     const [nameShop, setNameShop] = useState('');
     const [price, setPrice] = useState();
     const [oldPrice, setOldPrice] = useState();
+    const [option1, setOption1] = useState('');
+    const [option2, setOption2] = useState('');
+    const [option3, setOption3] = useState('');
     const [discount, setDiscount] = useState();
     const [soldAmount, setSoldAmount] = useState();
     const [reviewCount, setReviewCount] = useState();
@@ -66,6 +69,15 @@ function CreateProduct() {
     };
     const handleOldPriceChange = (event) => {
         setOldPrice(event.target.value.trim());
+    };
+    const handleOption1Change = (event) => {
+        setOption1(event.target.value);
+    };
+    const handleOption2Change = (event) => {
+        setOption2(event.target.value);
+    };
+    const handleOption3Change = (event) => {
+        setOption3(event.target.value);
     };
     const handleDiscountChange = (event) => {
         setDiscount(event.target.value.trim());
@@ -178,7 +190,7 @@ function CreateProduct() {
     };
 
     const handleNextStep1 = async () => {
-        if (productName && price && oldPrice && discount && soldAmount && reviewCount && imageProducts.length) {
+        if (productName && price && oldPrice && discount && soldAmount && reviewCount && imageProducts.length && option1) {
             setIsShowStep1(false);
             setIsShowStep2(true);
         }
@@ -256,6 +268,9 @@ function CreateProduct() {
         data.append('fourStarCount', fourStarCount);
         data.append('threeStarCount', threeStarCount);
         data.append('description', description);
+        data.append('option1', option1);
+        data.append('option2', option2);
+        data.append('option3', option3);
 
         imagesComment1.forEach((image) => {
             data.append('imagesComment1[]', image); // Append each image to the FormData as an array
@@ -423,6 +438,36 @@ function CreateProduct() {
                                     value={oldPrice}
                                     onChange={handleOldPriceChange}
                                     /> */}
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <TextField
+                                        error={isSubmit1 && !option1}
+                                        id="option1"
+                                        label="Lựa chọn mua thứ nhất"
+                                        variant="outlined"
+                                        value={option1}
+                                        onChange={handleOption1Change}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <TextField
+                                        // error={isSubmit1 && !option2}
+                                        id="option2"
+                                        label="Lựa chọn mua thứ hai"
+                                        variant="outlined"
+                                        value={option2}
+                                        onChange={handleOption2Change}
+                                    />
+                                </div>
+                                <div style={{ marginBottom: '10px' }}>
+                                    <TextField
+                                        // error={isSubmit1 && !option3}
+                                        id="option3"
+                                        label="Lựa chọn mua thứ ba"
+                                        variant="outlined"
+                                        value={option3}
+                                        onChange={handleOption3Change}
+                                    />
                                 </div>
                                 <div style={{ marginBottom: '10px' }}>
                                     <TextField

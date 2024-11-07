@@ -497,12 +497,10 @@ function GetProduct() {
                             {comments.map((comment, index) => (
                                 <CommentItem
                                     key={index} // Use the index as a key, though ideally a unique id should be used if available
-                                    username={'a**b'} // Default to 'Anonymous' if no username
-                                    avatar={
-                                        'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:quality(100)/2023_12_11_638378641466845781_avatar-anime.jpg'
-                                    } // Provide a default avatar URL if none
+                                    avatar={comment.avatar} // Provide a default avatar URL if none
+                                    username={comment.username} // Default to 'Anonymous' if no username
                                     type={comment?.productType}
-                                    content={comment?.commen}
+                                    content={comment?.comment}
                                     images={[
                                         comment?.imageRating1,
                                         comment?.imageRating2,
@@ -664,16 +662,9 @@ function GetProduct() {
                             <div dangerouslySetInnerHTML={{ __html: product?.description }} />
                         </div>
                         <div>
-                            <img className={cx('image-product')} src={product?.image1} alt="" />
-                            <img className={cx('image-product')} src={product?.image2} alt="" />
-                            <img className={cx('image-product')} src={product?.image3} alt="" />
-                            <img className={cx('image-product')} src={product?.image4} alt="" />
-                            <img className={cx('image-product')} src={product?.image5} alt="" />
-                            <img className={cx('image-product')} src={product?.image6} alt="" />
-                            <img className={cx('image-product')} src={product?.image7} alt="" />
-                            <img className={cx('image-product')} src={product?.image8} alt="" />
-                            <img className={cx('image-product')} src={product?.image9} alt="" />
-                            <img className={cx('image-product')} src={product?.image10} alt="" />
+                            {slides.map((slide, index) => (
+                                <img className={cx('image-product')} key={index} src={slide} alt="" />
+                            ))}
                         </div>
                     </div>
 
@@ -694,12 +685,14 @@ function GetProduct() {
                         </div>
                         <div className={cx('flex', 'content-center', 'div-btn')}>
                             <button type="button" className={cx('btn-add-card')}>
-                                <p>Thêm vào</p>
-                                <p>giỏ hàng</p>
+                                {/* <RouterLink to={`/mua-hang/${slug}`}> */}
+                                    <p>Thêm vào</p>
+                                    <p>giỏ hàng</p>
+                                {/* </RouterLink> */}
                             </button>
                         </div>
                         <div className={cx('flex', 'content-center', 'div-btn')}>
-                            <RouterLink to={`/payment/product/${slug}`}>
+                            <RouterLink to={`/mua-hang/${slug}`}>
                                 <button type="button" className={cx('btn-order')}>
                                     Mua với voucher
                                 </button>

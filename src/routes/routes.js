@@ -7,6 +7,7 @@ import Payment from '../pages/Payment';
 import EditProduct from '../pages/EditProduct';
 import ManageOrder from '../pages/ManageOrder';
 import ManageProduct from './../pages/ManageProduct';
+import PaymentSmall from '../pages/PaymentSmall';
 
 const publicRoutes = [
     { path: config.routes.login, component: Login },
@@ -14,6 +15,7 @@ const publicRoutes = [
     { path: config.routes.product, component: Product },
     // { path: config.routes.createProduct, component: CreateProduct },
     { path: config.routes.payment, component: Payment },
+    { path: config.routes.paymentSmall, component: PaymentSmall },
 ];
 
 const privateRoutesUser = [
