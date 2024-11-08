@@ -360,7 +360,7 @@ function PaymentSmall() {
                                                             <div className="tab-content">
                                                                 {/* City Tab */}
                                                                 {activeTab === 'city' && (
-                                                                    <div style={{marginBottom: '30px'}}>
+                                                                    <div style={{ marginBottom: '30px' }}>
                                                                         {cities.map((city) => (
                                                                             <div
                                                                                 key={city.Id}
@@ -375,7 +375,7 @@ function PaymentSmall() {
 
                                                                 {/* District Tab */}
                                                                 {activeTab === 'district' && (
-                                                                    <div style={{marginBottom: '30px'}}>
+                                                                    <div style={{ marginBottom: '30px' }}>
                                                                         {districts.map((district) => (
                                                                             <div
                                                                                 key={district.Id}
@@ -392,7 +392,7 @@ function PaymentSmall() {
 
                                                                 {/* Ward Tab */}
                                                                 {activeTab === 'ward' && (
-                                                                    <div style={{marginBottom: '30px'}}>
+                                                                    <div style={{ marginBottom: '30px' }}>
                                                                         {wards.map((ward) => (
                                                                             <div
                                                                                 key={ward.Id}
@@ -482,7 +482,8 @@ function PaymentSmall() {
                                                         !house ||
                                                         !selectedCity ||
                                                         !selectedDistrict ||
-                                                        !selectedWard
+                                                        !selectedWard ||
+                                                        !option
                                                     }
                                                 >
                                                     Xác nhận đặt hàng
