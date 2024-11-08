@@ -2,21 +2,17 @@
 import { useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 import styles from './Payment.module.scss';
-import { IoLocationOutline, IoLocationSharp, IoShieldCheckmarkOutline } from 'react-icons/io5';
+import { IoShieldCheckmarkOutline } from 'react-icons/io5';
 import { IoChevronBackSharp } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import * as authService from '../../services/authService';
 import Modal from 'react-modal';
 import './SlideModal.css';
-import { FaToggleOn } from 'react-icons/fa';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 import { FaAngleDown } from 'react-icons/fa6';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import { BsExclamationTriangle } from 'react-icons/bs';
 import Load from '../../components/Load';
-import { pink } from '@mui/material/colors';
 import Radio from '@mui/material/Radio';
 import { FormControlLabel, RadioGroup } from '@mui/material';
 Modal.setAppElement('#root');
@@ -338,7 +334,7 @@ function PaymentSmall() {
                                                             </div>
 
                                                             {/* Tab Navigation */}
-                                                            <div className="tabs">
+                                                            <div className="tabs" style={{paddingBottom: '25px'}}>
                                                                 <div
                                                                     className={activeTab === 'city' ? 'active' : ''}
                                                                     onClick={() => setActiveTab('city')}
