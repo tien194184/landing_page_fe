@@ -123,7 +123,7 @@ function PaymentSmall() {
     };
 
     const handleFormSubmit = async (event) => {
-        if (!name || !validatePhone(phone) || !house || !selectedCity || !selectedDistrict || !selectedWard) {
+        if (!name || !validatePhone(phone) || !house) {
             return;
         }
         // event.preventDefault();
@@ -260,7 +260,7 @@ function PaymentSmall() {
                                             </div>
                                             <div style={{ marginBottom: '15px' }}>
                                                 <p className={cx('info')}>Thông tin địa chỉ</p>
-                                                <div
+                                                {/* <div
                                                     style={{
                                                         backgroundColor: '#fff',
                                                         border: 'none',
@@ -307,7 +307,7 @@ function PaymentSmall() {
                                                             </div>
                                                         </>
                                                     )}
-                                                </div>
+                                                </div> */}
                                                 {isModalAddressOpen && (
                                                     <Modal
                                                         isOpen={isModalAddressOpen}
@@ -410,7 +410,7 @@ function PaymentSmall() {
                                                 )}
                                                 <input
                                                     type="text"
-                                                    placeholder="Tên đường, Tòa nhà, Số nhà"
+                                                    placeholder="Nhập địa chỉ (Số nhà, đường, xã, huyện, tỉnh,...)"
                                                     value={house}
                                                     onChange={handleHouseChange}
                                                 />
@@ -480,9 +480,9 @@ function PaymentSmall() {
                                                         !name ||
                                                         !phone ||
                                                         !house ||
-                                                        !selectedCity ||
-                                                        !selectedDistrict ||
-                                                        !selectedWard ||
+                                                        // !selectedCity ||
+                                                        // !selectedDistrict ||
+                                                        // !selectedWard ||
                                                         !option
                                                     }
                                                 >
