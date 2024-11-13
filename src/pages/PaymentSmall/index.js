@@ -239,7 +239,7 @@ function PaymentSmall() {
                                                     onChange={handleNameChange}
                                                 />
                                                 <div className={cx('flex', 'div-phone')}>
-                                                    <p style={{ padding: '14px 15px' }}>VN +84</p>
+                                                    {/* <p style={{ padding: '14px 15px' }}>VN +84</p> */}
                                                     <input
                                                         type="number"
                                                         placeholder="Nhập số điện thoại hợp lệ"
