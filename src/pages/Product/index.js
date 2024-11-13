@@ -33,6 +33,7 @@ import { LuStore } from 'react-icons/lu';
 import { TbMessageCircle } from 'react-icons/tb';
 import { IoTicket } from 'react-icons/io5';
 import * as authService from '../../services/authService';
+import TikTokPixel from '../../utils/TikTokPixel';
 
 const cx = classNames.bind(styles);
 
@@ -102,6 +103,7 @@ function GetProduct() {
 
     return (
         <>
+            <TikTokPixel />
             {product ? (
                 <>
                     <header className={cx('nav', 'conten-center')}>
@@ -593,11 +595,7 @@ function GetProduct() {
                     <div id={'blog'} style={{ margin: '15px 18px' }}>
                         <div className={cx('info-shop')}>
                             <div className={cx('flex')}>
-                                <Image
-                                    className={cx('avatar-shop')}
-                                    src={product.imageShop}
-                                    alt=""
-                                />
+                                <Image className={cx('avatar-shop')} src={product.imageShop} alt="" />
                                 <div style={{ marginLeft: '15px' }} className={cx('items-center', 'flex')}>
                                     <div>
                                         <p className={cx('name')}>{product.shop}</p>
@@ -685,8 +683,8 @@ function GetProduct() {
                         <div className={cx('flex', 'content-center', 'div-btn')}>
                             <button type="button" className={cx('btn-add-card')}>
                                 {/* <RouterLink to={`/mua-hang/${slug}`}> */}
-                                    <p>Thêm vào</p>
-                                    <p>giỏ hàng</p>
+                                <p>Thêm vào</p>
+                                <p>giỏ hàng</p>
                                 {/* </RouterLink> */}
                             </button>
                         </div>
