@@ -49,7 +49,7 @@ function GetProduct() {
         if (buttonState === 'Nhận') {
             setButtonState('Sử dụng');
         } else if (buttonState === 'Sử dụng') {
-            navigate(`/payment/product/${slug}`);
+            navigate(`/mua-hang/${slug}`);
         }
     };
 
